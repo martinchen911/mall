@@ -1,6 +1,5 @@
 package com.cf.mall.user.vo;
 
-import com.sun.org.apache.bcel.internal.classfile.Code;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

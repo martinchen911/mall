@@ -1,11 +1,9 @@
 package com.cf.mall.user.service.impl;
 
-import com.cf.mall.user.domain.UmsMemberReceiveAddress;
+import com.cf.mall.bean.UmsMemberReceiveAddress;
+import com.cf.mall.service.MemberAddressService;
 import com.cf.mall.user.mapper.UmsMemberReceiveAddressMapper;
-import com.cf.mall.user.service.MemberAddressService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +13,7 @@ import java.util.List;
  * @Date 2019/12/31
  */
 @Service
-public abstract class MemberAddressServiceImpl implements MemberAddressService {
+public class MemberAddressServiceImpl implements MemberAddressService {
 
     @Autowired
     private UmsMemberReceiveAddressMapper addressMapper;
@@ -40,25 +38,6 @@ public abstract class MemberAddressServiceImpl implements MemberAddressService {
         return addressMapper.selectByPrimaryKey(id);
     }
 
-    @Override
-    public List<UmsMemberReceiveAddress> selectByMemberKey(String id) {
-        Example<UmsMemberReceiveAddress> example = new Example<UmsMemberReceiveAddress>() {
-            @Override
-            public UmsMemberReceiveAddress getProbe() {
-                UmsMemberReceiveAddress address = new UmsMemberReceiveAddress();
-                address.setMemberId(Long.parseLong(id));
-                return address;
-            }
-
-            @Override
-            public ExampleMatcher getMatcher() {
-                ExampleMatcher matcher = ExampleMatcher.matching();
-                matcher.
-                return null;
-            }
-        };
-        return addressMapper.selectByExample(example);
-    }
 
     @Override
     public List<UmsMemberReceiveAddress> selectAll() {

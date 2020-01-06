@@ -1,8 +1,13 @@
 package com.cf.mall.user.service.impl;
 
-import com.cf.mall.user.service.MemberService;
+import com.cf.mall.bean.UmsMember;
+import com.cf.mall.bean.UmsMemberReceiveAddress;
+import com.cf.mall.service.MemberService;
+import com.cf.mall.user.mapper.UmsMemberMapper;
+import com.cf.mall.user.mapper.UmsMemberReceiveAddressMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -15,6 +20,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Autowired
     private UmsMemberMapper memberMapper;
+    @Autowired
+    private UmsMemberReceiveAddressMapper addressMapper;
 
     @Override
     public int deleteByPrimaryKey(String id) {
@@ -34,6 +41,13 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public UmsMember selectByPrimaryKey(String id) {
         return memberMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public List<UmsMemberReceiveAddress> selectByMemberKey(String memberId) {
+        Example e = new Example(UmsMemberReceiveAddress.class);
+        e.createCriteria().andEqualTo("memberId",memberId);
+        return addressMapper.selectByExample(e);
     }
 
     @Override

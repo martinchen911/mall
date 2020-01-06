@@ -1,6 +1,6 @@
 package com.cf.mall.user.mapper;
 
-import com.cf.mall.user.domain.UmsMemberLevel;
+import com.cf.mall.bean.UmsMemberLevel;
 import tk.mybatis.mapper.common.Mapper;
 
 /**

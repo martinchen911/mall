@@ -1,6 +1,7 @@
 package com.cf.mall.user.controller;
 
-import com.cf.mall.user.service.MemberService;
+import com.cf.mall.bean.UmsMember;
+import com.cf.mall.service.MemberService;
 import com.cf.mall.user.vo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,14 @@ public class MemberController {
     public Result get(@PathVariable("id") String id) {
         try {
             return Result.Success(memberService.selectByPrimaryKey(id));
+        } catch (Exception e) {
+            return Result.Fail(e.getMessage());
+        }
+    }
+    @GetMapping("/address/{id}")
+    public Result listAddress(@PathVariable("id") String id) {
+        try {
+            return Result.Success(memberService.selectByMemberKey(id));
         } catch (Exception e) {
             return Result.Fail(e.getMessage());
         }

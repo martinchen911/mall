@@ -1,7 +1,8 @@
 package com.cf.mall.user.controller;
 
 
-import com.cf.mall.user.service.MemberAddressService;
+import com.cf.mall.bean.UmsMemberReceiveAddress;
+import com.cf.mall.service.MemberAddressService;
 import com.cf.mall.user.vo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

@@ -1,6 +1,6 @@
 package com.cf.mall.user.mapper;
 
-import com.cf.mall.user.domain.UmsMemberReceiveAddress;
+import com.cf.mall.bean.UmsMemberReceiveAddress;
 import tk.mybatis.mapper.common.Mapper;
 
 /**
