@@ -1,4 +1,4 @@
-package com.cf.mall.user.vo;
+package com.cf.mall.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

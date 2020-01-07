@@ -2,7 +2,7 @@ package com.cf.mall.user.controller;
 
 import com.cf.mall.bean.UmsMember;
 import com.cf.mall.service.MemberService;
-import com.cf.mall.user.vo.Result;
+import com.cf.mall.vo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

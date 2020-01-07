@@ -22,6 +22,4 @@ mybatis:
 #showSql
 logging:
   level:
-    com:
-      example:
-        mapper : debug
+    com.cf.mall.user.mapper : debug

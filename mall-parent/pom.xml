@@ -33,6 +33,7 @@
         <jsoup.version>1.11.2</jsoup.version>
         <httpclient.version>4.5.5</httpclient.version>
         <commons-lang3.version>3.7</commons-lang3.version>
+        <mybatis.version>2.1.1</mybatis.version>
         <mapper-starter.version>2.1.1</mapper-starter.version>
         <druid.version>1.1.16</druid.version>
         <jedis.version>2.9.0</jedis.version>
@@ -104,7 +105,11 @@
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang3.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis.version}</version>
+            </dependency>
             <dependency>
                 <groupId>tk.mybatis</groupId>
                 <artifactId>mapper-spring-boot-starter</artifactId>
