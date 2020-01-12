@@ -3,10 +3,13 @@ package com.cf.mall.manage.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.cf.mall.bean.PmsBaseAttrInfo;
 import com.cf.mall.bean.PmsBaseAttrValue;
+import com.cf.mall.bean.PmsBaseSaleAttr;
 import com.cf.mall.manage.mapper.PmsBaseAttrInfoMapper;
 import com.cf.mall.manage.mapper.PmsBaseAttrValueMapper;
-import com.cf.mall.service.PmsBaseAttrService;
+import com.cf.mall.manage.mapper.PmsBaseSaleAttrMapper;
+import com.cf.mall.service.AttrService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
@@ -16,12 +19,14 @@ import java.util.List;
  * @Date 2020/1/11
  */
 @Service
-public class PmsBaseAttrServiceImpl implements PmsBaseAttrService {
+public class AttrServiceImpl implements AttrService {
 
     @Autowired
     private PmsBaseAttrInfoMapper attrInfoMapper;
     @Autowired
     private PmsBaseAttrValueMapper attrValueMapper;
+    @Autowired
+    private PmsBaseSaleAttrMapper saleAttrMapper;
 
     @Override
     public List<PmsBaseAttrInfo> attrInfoList(String catalog3) {
@@ -34,5 +39,27 @@ public class PmsBaseAttrServiceImpl implements PmsBaseAttrService {
         Example e = new Example(PmsBaseAttrValue.class);
         e.createCriteria().andEqualTo("attrId",attrId);
         return attrValueMapper.selectByExample(e);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void saveAttrInfo(PmsBaseAttrInfo attrInfo) {
+        if (attrInfo.getId() == null) {
+            attrInfoMapper.insertSelective(attrInfo);
+        } else {
+            attrInfoMapper.updateByPrimaryKey(attrInfo);
+            PmsBaseAttrValue attrValue = new PmsBaseAttrValue();
+            attrValue.setAttrId(attrInfo.getId());
+            attrValueMapper.delete(attrValue);
+        }
+        attrInfo.getAttrValueList().forEach(v -> {
+            v.setAttrId(attrInfo.getId());
+            attrValueMapper.insertSelective(v);
+        });
+    }
+
+    @Override
+    public List<PmsBaseSaleAttr> baseSaleAttrList() {
+        return saleAttrMapper.selectAll();
     }
 }

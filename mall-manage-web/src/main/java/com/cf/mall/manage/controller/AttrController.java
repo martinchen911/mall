@@ -3,11 +3,9 @@ package com.cf.mall.manage.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.cf.mall.bean.PmsBaseAttrInfo;
 import com.cf.mall.bean.PmsBaseAttrValue;
-import com.cf.mall.service.PmsBaseAttrService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.cf.mall.bean.PmsBaseSaleAttr;
+import com.cf.mall.service.AttrService;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,15 +20,26 @@ import java.util.List;
 public class AttrController {
 
     @Reference
-    private PmsBaseAttrService attrService;
+    private AttrService attrService;
 
     @GetMapping("/attrInfoList")
     public List<PmsBaseAttrInfo> attrInfoList(String catalog3Id) {
         return attrService.attrInfoList(catalog3Id);
     }
+
     @PostMapping("/getAttrValueList")
     public List<PmsBaseAttrValue> getAttrValueList(String attrId) {
         return attrService.getAttrValueList(attrId);
+    }
+
+    @PostMapping("/saveAttrInfo")
+    public void saveAttrInfo(@RequestBody PmsBaseAttrInfo attrInfo) {
+        attrService.saveAttrInfo(attrInfo);
+    }
+
+    @PostMapping("/baseSaleAttrList")
+    public List<PmsBaseSaleAttr> baseSaleAttrList() {
+        return attrService.baseSaleAttrList();
     }
 
 

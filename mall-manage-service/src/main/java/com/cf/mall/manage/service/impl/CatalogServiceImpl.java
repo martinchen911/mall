@@ -7,7 +7,7 @@ import com.cf.mall.bean.PmsBaseCatalog3;
 import com.cf.mall.manage.mapper.PmsBaseCatalog1Mapper;
 import com.cf.mall.manage.mapper.PmsBaseCatalog2Mapper;
 import com.cf.mall.manage.mapper.PmsBaseCatalog3Mapper;
-import com.cf.mall.service.PmsBaseCatalogService;
+import com.cf.mall.service.CatalogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.entity.Example;
 
@@ -18,7 +18,7 @@ import java.util.List;
  * @Date 2020/1/10
  */
 @Service
-public class PmsBaseCatalogServiceImpl implements PmsBaseCatalogService {
+public class CatalogServiceImpl implements CatalogService {
     @Autowired
     private PmsBaseCatalog1Mapper catalog1Mapper;
     @Autowired
