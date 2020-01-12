@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cf.mall.mapper.PmsSkuSaleAttrValueMapper">
+  <resultMap id="BaseResultMap" type="com.cf.mall.bean.PmsSkuSaleAttrValue">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="sku_id" jdbcType="BIGINT" property="skuId" />
+    <result column="sale_attr_id" jdbcType="BIGINT" property="saleAttrId" />
+    <result column="sale_attr_value_id" jdbcType="BIGINT" property="saleAttrValueId" />
+    <result column="sale_attr_name" jdbcType="VARCHAR" property="saleAttrName" />
+    <result column="sale_attr_value_name" jdbcType="VARCHAR" property="saleAttrValueName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, sku_id, sale_attr_id, sale_attr_value_id, sale_attr_name, sale_attr_value_name
+  </sql>
+
+</mapper>
