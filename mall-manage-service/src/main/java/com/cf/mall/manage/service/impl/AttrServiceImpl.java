@@ -32,7 +32,15 @@ public class AttrServiceImpl implements AttrService {
     public List<PmsBaseAttrInfo> attrInfoList(String catalog3) {
         Example e = new Example(PmsBaseAttrInfo.class);
         e.createCriteria().andEqualTo("catalog3Id",catalog3);
-        return attrInfoMapper.selectByExample(e);
+        List<PmsBaseAttrInfo> infos = attrInfoMapper.selectByExample(e);
+
+        infos.forEach(x -> {
+            PmsBaseAttrValue value = new PmsBaseAttrValue();
+            value.setAttrId(x.getId());
+            x.setAttrValueList(attrValueMapper.select(value));
+        });
+
+        return infos;
     }
     @Override
     public List<PmsBaseAttrValue> getAttrValueList(String attrId) {

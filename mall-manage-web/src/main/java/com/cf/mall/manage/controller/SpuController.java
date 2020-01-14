@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.cf.mall.bean.PmsProductImage;
 import com.cf.mall.bean.PmsProductInfo;
 import com.cf.mall.bean.PmsProductSaleAttr;
+import com.cf.mall.common.util.UploadUtil;
 import com.cf.mall.service.SpuService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,13 +24,12 @@ public class SpuController {
 
     @PostMapping("/fileUpload")
     public String fileUpload(@RequestParam("file") MultipartFile multipartFile) {
-
-        return "";
+        return UploadUtil.uploadImage(multipartFile);
     }
 
     @PostMapping("/saveSpuInfo")
     public void saveSpuInfo(@RequestBody PmsProductInfo productInfo) {
-
+        spuService.saveSpuInfo(productInfo);
     }
 
 

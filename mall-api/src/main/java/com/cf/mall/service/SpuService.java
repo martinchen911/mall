@@ -34,4 +34,10 @@ public interface SpuService {
      * @return
      */
     List<PmsProductImage> spuImageList(String spuId);
+
+    /**
+     * 保存 spu
+     * @param productInfo
+     */
+    void saveSpuInfo(PmsProductInfo productInfo);
 }

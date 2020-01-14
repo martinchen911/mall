@@ -2,6 +2,7 @@ package com.cf.mall.bean;
 
 import lombok.Data;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
@@ -14,6 +15,9 @@ public class PmsProductSaleAttr implements Serializable {
     /**
      * id
      */
+    @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**
@@ -31,6 +35,7 @@ public class PmsProductSaleAttr implements Serializable {
      */
     private String saleAttrName;
 
+    @Transient
     private List<PmsProductSaleAttrValue> spuSaleAttrValueList;
 
     private static final long serialVersionUID = 1L;
