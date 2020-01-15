@@ -1,7 +1,13 @@
 package com.cf.mall.bean;
 
-import java.io.Serializable;
 import lombok.Data;
+
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * pms_sku_info
@@ -12,6 +18,9 @@ public class PmsSkuInfo implements Serializable {
     /**
      * 库存id(itemID)
      */
+    @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /**
@@ -50,6 +59,12 @@ public class PmsSkuInfo implements Serializable {
      * 默认显示图片(冗余)
      */
     private String skuDefaultImg;
+
+    private List<PmsSkuImage> skuImageList;
+
+    private List<PmsSkuAttrValue> skuAttrValueList;
+
+    private List<PmsSkuSaleAttrValue> skuSaleAttrValueList;
 
     private static final long serialVersionUID = 1L;
 }
