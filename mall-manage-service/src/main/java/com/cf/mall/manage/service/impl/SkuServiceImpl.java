@@ -13,12 +13,13 @@ import com.cf.mall.manage.mapper.PmsSkuSaleAttrValueMapper;
 import com.cf.mall.service.SkuService;
 import com.cf.mall.util.RedisUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import redis.clients.jedis.Jedis;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Author chen
@@ -37,6 +38,8 @@ public class SkuServiceImpl implements SkuService {
     private PmsSkuSaleAttrValueMapper saleAttrValueMapper;
     @Autowired
     private RedisUtil redisUtil;
+    @Autowired
+    private RedissonClient redisson;
 
 
 
@@ -65,7 +68,11 @@ public class SkuServiceImpl implements SkuService {
 
     @Override
     public PmsSkuInfo getSku(String id) {
+        // 生成 key
         String key = "PmsSkuInfo:"+id+":getSku";
+
+        // 获取锁
+        RLock lock = redisson.getLock("anyLock");
 
         // 1.连接缓存(自动资源释放)
         try(Jedis jedis = redisUtil.getJedis()) {
@@ -74,33 +81,24 @@ public class SkuServiceImpl implements SkuService {
             if (StringUtils.isNoneBlank(s)) {
                 return JSON.parseObject(s,PmsSkuInfo.class);
             } else {
-                // redis 分布式锁
-                String token = UUID.randomUUID().toString();
-                String result = jedis.set(key + "lock", token, "nx", "px", 2*1000);
+                lock.lock(3, TimeUnit.SECONDS);
 
-                if ("ok".equalsIgnoreCase(result)) {
-                    // 3.如果没有，则查询mysql
-                    PmsSkuInfo info = getSkuDB(id);
-                    // 4.查询结果存入redis
-                    if (null == info) {
-                        // 防止缓存穿透，存储空值一段时间
-                        jedis.setex(key,3*60,JSON.toJSONString(info));
-                    } else {
-                        jedis.set(key,JSON.toJSONString(info));
-                    }
-                    // lua 脚本
-                    String script ="if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
-                    // 释放锁
-                    jedis.eval(script, Collections.singletonList(key + "lock"),Collections.singletonList(token));
-
-                    return info;
+                // 3.如果没有，则查询mysql
+                PmsSkuInfo info = getSkuDB(id);
+                // 4.查询结果存入redis
+                if (null == info) {
+                    // 防止缓存穿透，存储空值一段时间
+                    jedis.setex(key,3*60,JSON.toJSONString(info));
                 } else {
-                    Thread.sleep(1000);
-                    return getSku(id);
+                    jedis.set(key,JSON.toJSONString(info));
                 }
+
+                return info;
             }
-        }catch (Exception e){
+        } catch (Exception e){
             e.printStackTrace();
+        } finally {
+            lock.unlock();
         }
         return null;
     }
