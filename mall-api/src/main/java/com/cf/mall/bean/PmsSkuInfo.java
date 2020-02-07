@@ -2,10 +2,7 @@ package com.cf.mall.bean;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
@@ -60,10 +57,13 @@ public class PmsSkuInfo implements Serializable {
      */
     private String skuDefaultImg;
 
+    @Transient
     private List<PmsSkuImage> skuImageList;
 
+    @Transient
     private List<PmsSkuAttrValue> skuAttrValueList;
 
+    @Transient
     private List<PmsSkuSaleAttrValue> skuSaleAttrValueList;
 
     private static final long serialVersionUID = 1L;

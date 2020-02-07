@@ -2,6 +2,8 @@ package com.cf.mall.service;
 
 import com.cf.mall.bean.PmsSkuInfo;
 
+import java.util.List;
+
 /**
  * 库存存储单元
  * @Author chen
@@ -14,4 +16,18 @@ public interface SkuService {
      * @param skuInfo
      */
     void saveSkuInfo(PmsSkuInfo skuInfo);
+
+    /**
+     * 获取 sku
+     * @param id
+     * @return
+     */
+    PmsSkuInfo getSku(String id);
+
+    /**
+     * 根据商品id获取sku
+     * @param productId
+     * @return
+     */
+    List<PmsSkuInfo> listSku(Long productId);
 }

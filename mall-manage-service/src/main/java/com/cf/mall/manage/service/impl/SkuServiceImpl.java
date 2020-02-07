@@ -1,13 +1,18 @@
 package com.cf.mall.manage.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.cf.mall.bean.PmsSkuAttrValue;
+import com.cf.mall.bean.PmsSkuImage;
 import com.cf.mall.bean.PmsSkuInfo;
+import com.cf.mall.bean.PmsSkuSaleAttrValue;
 import com.cf.mall.manage.mapper.PmsSkuAttrValueMapper;
 import com.cf.mall.manage.mapper.PmsSkuImageMapper;
 import com.cf.mall.manage.mapper.PmsSkuInfoMapper;
 import com.cf.mall.manage.mapper.PmsSkuSaleAttrValueMapper;
 import com.cf.mall.service.SkuService;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 /**
  * @Author chen
@@ -49,4 +54,29 @@ public class SkuServiceImpl implements SkuService {
         });
 
     }
+
+    @Override
+    public PmsSkuInfo getSku(String id) {
+        PmsSkuInfo skuInfo = infoMapper.selectByPrimaryKey(id);
+
+        PmsSkuImage image = new PmsSkuImage();
+        image.setSkuId(Long.parseLong(id));
+        skuInfo.setSkuImageList(imageMapper.select(image));
+
+        PmsSkuAttrValue attrValue = new PmsSkuAttrValue();
+        attrValue.setSkuId(Long.parseLong(id));
+        skuInfo.setSkuAttrValueList(attrValueMapper.select(attrValue));
+
+        PmsSkuSaleAttrValue saleAttrValue = new PmsSkuSaleAttrValue();
+        saleAttrValue.setSkuId(Long.parseLong(id));
+        skuInfo.setSkuSaleAttrValueList(saleAttrValueMapper.select(saleAttrValue));
+        return skuInfo;
+    }
+
+    @Override
+    public List<PmsSkuInfo> listSku(Long productId) {
+        return infoMapper.selectSkuValue(productId);
+    }
+
+
 }

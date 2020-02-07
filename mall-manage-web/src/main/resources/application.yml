@@ -16,7 +16,7 @@ spring:
     base-package: com.cf.mall #dubbo 的服务扫描路径
     #消费配置
     consumer:
-      timeout: 1000
+      timeout: 2000
       check: false
 
 

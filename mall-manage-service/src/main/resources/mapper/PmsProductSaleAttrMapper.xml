@@ -1,14 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cf.mall.mapper.PmsProductSaleAttrMapper">
-  <resultMap id="BaseResultMap" type="com.cf.mall.bean.PmsProductSaleAttr">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="product_id" jdbcType="BIGINT" property="productId" />
-    <result column="sale_attr_id" jdbcType="BIGINT" property="saleAttrId" />
-    <result column="sale_attr_name" jdbcType="VARCHAR" property="saleAttrName" />
+<mapper namespace="com.cf.mall.manage.mapper.PmsProductSaleAttrMapper">
+  <resultMap id="BaseResultMap" type="com.cf.mall.bean.PmsProductSaleAttr" autoMapping="true">
+    <result column="id" property="id" ></result>
+    <collection property="spuSaleAttrValueList" ofType="com.cf.mall.bean.PmsProductSaleAttrValue" autoMapping="true" >
+        <result column="sv_id" property="id" ></result>
+    </collection>
   </resultMap>
   <sql id="Base_Column_List">
     id, product_id, sale_attr_id, sale_attr_name
   </sql>
 
+
+  <select id="selectSpuSaleAttrListCheckBySku" resultMap="BaseResultMap">
+    SELECT
+      sa.id,
+      sa.product_id,
+      sa.sale_attr_name,
+      sa.sale_attr_id,
+      sv.id sv_id,
+      sv.sale_attr_value_name,
+      skv.sku_id,
+      if(skv.sku_id is not null,1,0) as isCheck
+    FROM pms_product_sale_attr sa
+    inner JOIN pms_product_sale_attr_value sv
+      on sa.sale_attr_id = sv.sale_attr_id and sa.product_id = sv.product_id and sa.product_id = #{spuId}
+    LEFT JOIN pms_sku_sale_attr_value skv
+      on skv.sale_attr_id = sa.sale_attr_id and skv.sale_attr_value_id = sv.id and skv.sku_id = #{skuId}
+    ORDER BY
+      sv.sale_attr_id
+  </select>
 </mapper>

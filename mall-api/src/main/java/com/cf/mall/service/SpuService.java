@@ -40,4 +40,11 @@ public interface SpuService {
      * @param productInfo
      */
     void saveSpuInfo(PmsProductInfo productInfo);
+
+    /**
+     * 查询销售属性
+     * @param spuId
+     * @return
+     */
+    List<PmsProductSaleAttr> spuSaleAttrListCheckBySku(Long spuId,Long skuId);
 }

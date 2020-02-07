@@ -1,7 +1,9 @@
 package com.cf.mall.bean;
 
-import java.io.Serializable;
 import lombok.Data;
+
+import javax.persistence.Transient;
+import java.io.Serializable;
 
 /**
  * pms_product_sale_attr_value
@@ -28,6 +30,12 @@ public class PmsProductSaleAttrValue implements Serializable {
      * 销售属性值名称
      */
     private String saleAttrValueName;
+
+    /**
+     * 是否选中
+     */
+    @Transient
+    private String isCheck;
 
     private static final long serialVersionUID = 1L;
 }

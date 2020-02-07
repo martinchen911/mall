@@ -21,7 +21,7 @@ public class UploadUtil {
         StringBuilder sb = new StringBuilder("http://192.168.9.191:8888");
 
         // 客户端配置文件路径
-        String path = UploadUtil.class.getResource("/tracker.conf").getPath();
+        String path = "tracker.conf";
 
         try {
             // 获取 storage 实例

@@ -28,7 +28,6 @@ public class SpuServiceImpl implements SpuService {
     private PmsProductImageMapper productImageMapper;
     @Autowired
     private PmsProductSaleAttrMapper productSaleAttrMapper;
-
     @Autowired
     private PmsProductSaleAttrValueMapper productSaleAttrValueMapper;
 
@@ -72,9 +71,15 @@ public class SpuServiceImpl implements SpuService {
 
             attr.getSpuSaleAttrValueList().forEach(v -> {
                 v.setProductId(productInfo.getId());
-                v.setSaleAttrId(attr.getId());
+                v.setSaleAttrId(attr.getSaleAttrId());
                 productSaleAttrValueMapper.insertSelective(v);
             });
         });
+    }
+
+    @Override
+    public List<PmsProductSaleAttr> spuSaleAttrListCheckBySku(Long spuId, Long skuId) {
+        List<PmsProductSaleAttr> saleAttrs = productSaleAttrMapper.selectSpuSaleAttrListCheckBySku(spuId,skuId);
+        return saleAttrs;
     }
 }
