@@ -1,4 +1,4 @@
-package com.cf.mall.manage;
+package com.cf.mall;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
