@@ -124,5 +124,16 @@ public class SkuServiceImpl implements SkuService {
         return infoMapper.selectSkuValue(productId);
     }
 
+    @Override
+    public List<PmsSkuInfo> listSku() {
+        List<PmsSkuInfo> skuInfos = infoMapper.selectAll();
+        skuInfos.forEach(s -> {
+            PmsSkuAttrValue attrValue = new PmsSkuAttrValue();
+            attrValue.setSkuId(s.getId());
+            s.setSkuAttrValueList(attrValueMapper.select(attrValue));
+        });
+        return skuInfos;
+    }
+
 
 }

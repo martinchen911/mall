@@ -39,4 +39,10 @@ public interface AttrService {
      * @return
      */
     List<PmsBaseSaleAttr> baseSaleAttrList();
+
+    /**
+     * 获取属性列表
+     * @param ids
+     */
+    List<PmsBaseAttrInfo> listAttr(List<Long> ids);
 }

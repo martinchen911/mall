@@ -30,4 +30,10 @@ public interface SkuService {
      * @return
      */
     List<PmsSkuInfo> listSku(Long productId);
+
+    /**
+     * 查询所有
+     * @return
+     */
+    List<PmsSkuInfo> listSku();
 }

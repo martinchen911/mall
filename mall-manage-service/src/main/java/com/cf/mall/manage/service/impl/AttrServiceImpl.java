@@ -70,4 +70,9 @@ public class AttrServiceImpl implements AttrService {
     public List<PmsBaseSaleAttr> baseSaleAttrList() {
         return saleAttrMapper.selectAll();
     }
+
+    @Override
+    public List<PmsBaseAttrInfo> listAttr(List<Long> ids) {
+        return attrInfoMapper.selectAttrByValueIds(ids);
+    }
 }

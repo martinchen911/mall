@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cf.mall.mapper.PmsBaseAttrInfoMapper">
-  <resultMap id="BaseResultMap" type="com.cf.mall.bean.PmsBaseAttrInfo">
+<mapper namespace="com.cf.mall.manage.mapper.PmsBaseAttrInfoMapper">
+  <resultMap id="BaseResultMap" type="com.cf.mall.bean.PmsBaseAttrInfo" autoMapping="true">
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="attr_name" jdbcType="VARCHAR" property="attrName" />
-    <result column="catalog3_id" jdbcType="BIGINT" property="catalog3Id" />
-    <result column="is_enabled" jdbcType="VARCHAR" property="isEnabled" />
+    <collection property="attrValueList" ofType="com.cf.mall.bean.PmsBaseAttrValue" autoMapping="true">
+      <id column="value_id" jdbcType="BIGINT" property="id" />
+    </collection>
   </resultMap>
   <sql id="Base_Column_List">
     id, attr_name, catalog3_id, is_enabled
   </sql>
+
+
+  <select id="selectAttrByValueIds" resultMap="BaseResultMap">
+    SELECT
+      *,v.id value_id
+    FROM
+      pms_base_attr_info i,
+      pms_base_attr_value v
+    WHERE
+      i.id = v.attr_id
+      AND v.id in
+    <foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+      #{id}
+    </foreach>
+  </select>
 
 </mapper>
