@@ -71,7 +71,7 @@ public class SpuServiceImpl implements SpuService {
 
             attr.getSpuSaleAttrValueList().forEach(v -> {
                 v.setProductId(productInfo.getId());
-                v.setSaleAttrId(attr.getSaleAttrId());
+                v.setSaleAttrId(attr.getId());
                 productSaleAttrValueMapper.insertSelective(v);
             });
         });

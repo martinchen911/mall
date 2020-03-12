@@ -13,6 +13,10 @@
 | mall-manage-service | 8061 | 后台管理服务层     |
 | mall-manage-web     | 8081 | 后台管理访问层     |
 | mall-item-web       | 8082 | 详情模块           |
+| mall-search-service | 8063 | 搜索服务           |
+| mall-search-web     | 8083 | 搜索访问层         |
+| mall-cart-service   | 8064 | 购物车服务         |
+| mall-cart-web       | 8084 | 购物车访问层       |
 
 
 

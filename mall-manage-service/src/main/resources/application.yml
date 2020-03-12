@@ -38,4 +38,4 @@ mybatis:
 #showSql
 logging:
   level:
-    com.cf.mall.user.mapper: debug
+    com.cf.mall.manage.mapper: debug
