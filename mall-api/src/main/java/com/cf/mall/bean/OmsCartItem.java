@@ -116,6 +116,11 @@ public class OmsCartItem implements Serializable {
      */
     private String productAttr;
 
+    /**
+     * 是否选中
+     */
+    private String isChecked;
+
     private static final long serialVersionUID = 1L;
 
     public OmsCartItem(PmsSkuInfo sku,Integer quantity,Long memberId) {

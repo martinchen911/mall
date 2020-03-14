@@ -43,4 +43,5 @@ mybatis:
 
 #showSql
 logging:
-  level: debug
+  level:
+    com.cf.mall.cart.mapper: debug

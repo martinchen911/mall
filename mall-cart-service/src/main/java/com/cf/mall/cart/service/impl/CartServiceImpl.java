@@ -12,6 +12,8 @@ import redis.clients.jedis.Jedis;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @Author chen
@@ -28,8 +30,9 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public OmsCartItem getCartItem(OmsCartItem cartItem) {
+        cartItem.setQuantity(null);
         Jedis jedis = redisUtil.getJedis();
-        String s = jedis.get("cartItem_" + cartItem.getMemberId());
+        String s = jedis.hget("user:"+cartItem.getMemberId()+":cart",cartItem.getProductSkuId().toString());
         return StringUtils.isBlank(s)?
                 cartItemMapper.selectOne(cartItem)
                 :JSON.parseObject(s,OmsCartItem.class);
@@ -38,20 +41,49 @@ public class CartServiceImpl implements CartService {
     @Override
     public void saveCartItem(OmsCartItem cartItem) {
         cartItemMapper.insertSelective(cartItem);
-        flushCartCache(cartItem.getMemberId());
     }
 
     @Override
-    public void updateCartItem(OmsCartItem cartDB) {
-        cartItemMapper.updateByPrimaryKeySelective(cartDB);
+    public void updateCartItem(OmsCartItem cartItem) {
+        cartItemMapper.updateByPrimaryKeySelective(cartItem);
     }
 
     @Override
-    public void flushCartCache(Long memberId) {
-        Jedis jedis = redisUtil.getJedis();
+    public void flushCartCache(String memberId) {
+        String key = "user:"+memberId+":cart";
+        try (Jedis jedis = redisUtil.getJedis()) {
+            Example e = new Example(OmsCartItem.class);
+            e.createCriteria().andEqualTo("memberId",memberId);
+            List<OmsCartItem> cartItems = cartItemMapper.selectByExample(e);
+
+            jedis.del(key);
+            Map<String,String> map = cartItems.stream()
+                    .collect(Collectors.toMap(x -> String.valueOf(x.getProductSkuId()),JSON::toJSONString));
+            jedis.hmset(key,map);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<OmsCartItem> listCart(String memberId) {
+        List<OmsCartItem> list = null;
+        try (Jedis jedis = redisUtil.getJedis()) {
+            List<String> hvals = jedis.hvals("user:" + memberId + ":cart");
+            list = hvals.stream().map(x -> JSON.parseObject(x,OmsCartItem.class)).collect(Collectors.toList());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    @Override
+    public void checkedCart(OmsCartItem cartItem) {
+
         Example e = new Example(OmsCartItem.class);
-        e.createCriteria().andEqualTo("memberId",memberId);
-        List<OmsCartItem> cartItems = cartItemMapper.selectByExample(e);
-        jedis.set("cartItem_"+memberId, JSON.toJSONString(cartItems));
+        e.createCriteria().andEqualTo("memberId",cartItem.getMemberId())
+                .andEqualTo("productSkuId",cartItem.getProductSkuId());
+        cartItemMapper.updateByExampleSelective(cartItem,e);
+        flushCartCache(cartItem.getMemberId().toString());
     }
 }

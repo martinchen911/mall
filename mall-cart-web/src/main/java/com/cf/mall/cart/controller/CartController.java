@@ -9,6 +9,9 @@ import com.cf.mall.service.SkuService;
 import com.cf.mall.util.CookieUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +31,19 @@ public class CartController {
 
     @Reference
     private CartService cartService;
+
+    @PostMapping("checkCart")
+    public String checkCart(OmsCartItem cartItem,ModelMap map) {
+
+        String memberId = "123";
+        cartItem.setMemberId(Long.parseLong(memberId));
+        cartService.checkedCart(cartItem);
+
+        List<OmsCartItem> cartItems = cartService.listCart(memberId);
+        map.put("cartList",cartItems);
+
+        return "cartListInner";
+    }
 
     @RequestMapping("addToCart")
     public String addToCart(String skuId,Integer quantity,HttpServletRequest request, HttpServletResponse response) {
@@ -58,14 +74,31 @@ public class CartController {
         } else {
             OmsCartItem cartDB = cartService.getCartItem(cartItem);
             if (null == cartDB) {
+                cartDB = cartItem;
                 cartService.saveCartItem(cartItem);
             } else {
                 cartDB.setQuantity(cartItem.getQuantity()+cartDB.getQuantity());
                 cartService.updateCartItem(cartDB);
             }
-            cartService.flushCartCache(memberId);
+            cartService.flushCartCache(memberId.toString());
         }
         return "redirect:/success.html";
+    }
+
+    @RequestMapping("cartList")
+    public String cartList(ModelMap map,HttpServletRequest request, HttpServletResponse response) {
+        List<OmsCartItem> cartItems = new LinkedList<>();
+        String memberId = "123";
+        if (StringUtils.isBlank(memberId)) {
+            String cookieStr = CookieUtil.getCookieValue(request, "cartListCookie", true);
+            if (StringUtils.isNotBlank(cookieStr)) {
+                cartItems = JSON.parseArray(cookieStr,OmsCartItem.class);
+            }
+        } else {
+            cartItems = cartService.listCart(memberId);
+        }
+        map.put("cartList",cartItems);
+        return "cartList";
     }
 
 }
