@@ -25,6 +25,7 @@ spring:
       protocol: zookeeper # zookeeper的通讯协议名称
     protocol:
       name: dubbo # dubbo 的通讯协议名称
+      port: 20884 # 服务调用端口
     base-package: com.cf.mall #dubbo 的服务扫描路径
     #消费配置
     consumer:

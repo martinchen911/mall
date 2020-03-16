@@ -86,6 +86,11 @@ public class UmsMember implements Serializable {
     private Integer sourceType;
 
     /**
+     * 社交登录授权码
+     */
+    private String accessToken;
+
+    /**
      * 积分
      */
     private Integer integration;

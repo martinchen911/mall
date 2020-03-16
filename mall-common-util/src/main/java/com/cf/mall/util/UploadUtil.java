@@ -1,4 +1,4 @@
-package com.cf.mall.common.util;
+package com.cf.mall.util;
 
 import org.csource.common.MyException;
 import org.csource.fastdfs.ClientGlobal;

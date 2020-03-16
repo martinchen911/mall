@@ -2,6 +2,7 @@ package com.cf.mall.cart.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
+import com.cf.mall.annotations.LoginRequired;
 import com.cf.mall.bean.OmsCartItem;
 import com.cf.mall.bean.PmsSkuInfo;
 import com.cf.mall.service.CartService;
@@ -10,9 +11,7 @@ import com.cf.mall.util.CookieUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,6 +31,15 @@ public class CartController {
     @Reference
     private CartService cartService;
 
+    @GetMapping("toTrade")
+    @LoginRequired
+    public String toTrade(ModelMap map,HttpServletRequest request, HttpServletResponse response) {
+
+
+        return "toTrade";
+    }
+
+    @LoginRequired(loginSuccess=false)
     @PostMapping("checkCart")
     public String checkCart(OmsCartItem cartItem,ModelMap map) {
 
@@ -45,6 +53,7 @@ public class CartController {
         return "cartListInner";
     }
 
+    @LoginRequired(loginSuccess=false)
     @RequestMapping("addToCart")
     public String addToCart(String skuId,Integer quantity,HttpServletRequest request, HttpServletResponse response) {
         PmsSkuInfo sku = skuService.getSku(skuId);
@@ -85,6 +94,7 @@ public class CartController {
         return "redirect:/success.html";
     }
 
+    @LoginRequired(loginSuccess=false)
     @RequestMapping("cartList")
     public String cartList(ModelMap map,HttpServletRequest request, HttpServletResponse response) {
         List<OmsCartItem> cartItems = new LinkedList<>();
