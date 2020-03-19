@@ -80,6 +80,10 @@
 			let ReturnUrl = $('#ReturnUrl').val();
 			let param = $("#loginForm").serialize();
 			$.post("login",param,function (token) {
+				if (token == "fail") {
+					alert("密码错误")
+					return;
+				}
 				window.location.href = (ReturnUrl+"?token="+token);
 			})
 		}

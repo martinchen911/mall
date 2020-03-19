@@ -30,4 +30,8 @@ public interface MemberService {
     int updateByPrimaryKeySelective(UmsMember record);
 
     int updateByPrimaryKey(UmsMember record);
+
+    UmsMember login(UmsMember member);
+
+    void setMemberToken(Long id, String token);
 }

@@ -1,6 +1,7 @@
 package com.cf.mall.search.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.cf.mall.annotations.LoginRequired;
 import com.cf.mall.bean.PmsBaseAttrInfo;
 import com.cf.mall.bean.PmsSearchCrumb;
 import com.cf.mall.bean.PmsSearchParam;
@@ -69,9 +70,6 @@ public class SearchController {
         String urlParam = getUrlParam(param);
         map.put("urlParam",urlParam);
 //        map.put("keyword",param.getKeyword());
-
-
-
         return "list";
     }
 
@@ -93,12 +91,12 @@ public class SearchController {
                     p.add("valueId="+x);
                 }
             });
-
         }
         return StringUtils.join(p,"&");
     }
 
     @RequestMapping("index")
+    @LoginRequired(loginSuccess = false)
     public String index() {
         return "index";
     }

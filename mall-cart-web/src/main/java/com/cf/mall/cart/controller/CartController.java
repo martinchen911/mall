@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.naming.Name;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.LinkedList;
@@ -34,16 +35,17 @@ public class CartController {
     @GetMapping("toTrade")
     @LoginRequired
     public String toTrade(ModelMap map,HttpServletRequest request, HttpServletResponse response) {
-
+        String memberId = String.valueOf(request.getAttribute("memberId"));
+        String nikeName = String.valueOf(request.getAttribute("nikeName"));
 
         return "toTrade";
     }
 
     @LoginRequired(loginSuccess=false)
     @PostMapping("checkCart")
-    public String checkCart(OmsCartItem cartItem,ModelMap map) {
+    public String checkCart(OmsCartItem cartItem,ModelMap map,HttpServletRequest request) {
 
-        String memberId = "123";
+        String memberId = String.valueOf(request.getAttribute("memberId"));
         cartItem.setMemberId(Long.parseLong(memberId));
         cartService.checkedCart(cartItem);
 
@@ -60,13 +62,12 @@ public class CartController {
 
 
         // 用户id
-        Long memberId = 123L;
-        OmsCartItem cartItem = new OmsCartItem(sku,quantity,memberId);
-
+        String memberId = String.valueOf(request.getAttribute("memberId"));
+        OmsCartItem cartItem = new OmsCartItem(sku,quantity,Long.parseLong(memberId));
 
 
         // 未登录存cookie，登录存DB
-        if(StringUtils.isBlank(memberId.toString())) {
+        if(StringUtils.isBlank(memberId)) {
             String cartCookie = CookieUtil.getCookieValue(request,"cartItemList",true);
             List<OmsCartItem> cartItemList = new LinkedList<>();
             if (StringUtils.isNotBlank(cartCookie)) {
@@ -89,7 +90,7 @@ public class CartController {
                 cartDB.setQuantity(cartItem.getQuantity()+cartDB.getQuantity());
                 cartService.updateCartItem(cartDB);
             }
-            cartService.flushCartCache(memberId.toString());
+            cartService.flushCartCache(memberId);
         }
         return "redirect:/success.html";
     }
@@ -98,7 +99,7 @@ public class CartController {
     @RequestMapping("cartList")
     public String cartList(ModelMap map,HttpServletRequest request, HttpServletResponse response) {
         List<OmsCartItem> cartItems = new LinkedList<>();
-        String memberId = "123";
+        String memberId = String.valueOf(request.getAttribute("memberId"));
         if (StringUtils.isBlank(memberId)) {
             String cookieStr = CookieUtil.getCookieValue(request, "cartListCookie", true);
             if (StringUtils.isNotBlank(cookieStr)) {
