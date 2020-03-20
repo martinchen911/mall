@@ -83,7 +83,17 @@ public class UmsMember implements Serializable {
     /**
      * 用户来源
      */
-    private Integer sourceType;
+    private String sourceType;
+
+    /**
+     * 来源id
+     */
+    private String sourceUid;
+
+    /**
+     * 获取token的code
+     */
+    private String accessCode;
 
     /**
      * 社交登录授权码

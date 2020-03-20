@@ -23,11 +23,13 @@ import java.util.Map;
 @Controller
 public class PassportController {
 
-    @Value("${passport.security.key}")
+    @Value("${global-constant.security.key}")
     private String key;
 
     @Reference
     private MemberService memberService;
+
+
 
     @GetMapping("verify")
     @ResponseBody

@@ -104,4 +104,16 @@ public class MemberServiceImpl implements MemberService {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void insertSocial(UmsMember um) {
+        Example e = new Example(UmsMember.class);
+        e.createCriteria().andEqualTo("sourceUid",um.getSourceUid());
+        List<UmsMember> umsMemberList = memberMapper.selectByExample(e);
+        if (umsMemberList.size() > 0) {
+            memberMapper.insertSelective(um);
+        } else {
+            memberMapper.updateByPrimaryKey(um);
+        }
+    }
 }

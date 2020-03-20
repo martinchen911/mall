@@ -26,5 +26,5 @@ spring:
 # 日志输出
 logging:
   level:
-    root: debug
+    root: info
 

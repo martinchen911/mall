@@ -27,7 +27,13 @@ spring:
 # 日志输出
 logging:
   level:
-    root: debug
+    root: info
 
-passport:
-  security.key: "passport-web"
+
+global-constant:
+  security:
+    key: passport-web
+  app:
+    key: 4041463386
+    secret: f75907eadc561030a2e0af09e69b1044
+
