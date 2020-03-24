@@ -1,19 +1,19 @@
 
 # 服务
 server:
-  port: 8085
+  port: 8086
 
 
 spring:
   # dubbo 的配置
   dubbo:
-    application: passport-web  #服务名称
+    application: order-web  #服务名称
     registry:
       address: 192.168.9.191:2181 #zookeeper 注册地址
       protocol: zookeeper # zookeeper的通讯协议名称
     protocol:
       name: dubbo # dubbo 的通讯协议名称
-      port: 20885 # 服务调用端口
+      port: 20886 # 服务调用端口
     base-package: com.cf.mall #dubbo 的服务扫描路径
     #消费配置
     consumer:
@@ -30,10 +30,5 @@ logging:
     root: info
 
 
-global-constant:
-  security:
-    key: passport-web
-  app:
-    key: 4041463386
-    secret: f75907eadc561030a2e0af09e69b1044
+
 

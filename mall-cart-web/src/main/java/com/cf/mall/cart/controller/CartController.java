@@ -32,14 +32,7 @@ public class CartController {
     @Reference
     private CartService cartService;
 
-    @GetMapping("toTrade")
-    @LoginRequired
-    public String toTrade(ModelMap map,HttpServletRequest request, HttpServletResponse response) {
-        String memberId = String.valueOf(request.getAttribute("memberId"));
-        String nikeName = String.valueOf(request.getAttribute("nikeName"));
 
-        return "toTrade";
-    }
 
     @LoginRequired(loginSuccess=false)
     @PostMapping("checkCart")

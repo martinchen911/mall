@@ -18,6 +18,9 @@
 | mall-cart-service   | 8064    | 20884    | 购物车服务         |
 | mall-cart-web       | 8084    |          | 购物车访问层       |
 | mall-passport-web   | 8085    | 20885    | 认证中心           |
+| mall-order-service  | 8066    |          | 结算服务           |
+| mall-order-web      | 8086    | 20886    | 结算访问           |
+|                     |         |          |                    |
 
-
+s
 
