@@ -86,4 +86,9 @@ public class CartServiceImpl implements CartService {
         cartItemMapper.updateByExampleSelective(cartItem,e);
         flushCartCache(cartItem.getMemberId().toString());
     }
+
+    @Override
+    public void removeItem(OmsCartItem cartItem) {
+        cartItemMapper.delete(cartItem);
+    }
 }

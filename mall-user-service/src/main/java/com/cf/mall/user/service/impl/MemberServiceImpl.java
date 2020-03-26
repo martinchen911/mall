@@ -116,4 +116,11 @@ public class MemberServiceImpl implements MemberService {
             memberMapper.updateByPrimaryKey(um);
         }
     }
+
+    @Override
+    public UmsMemberReceiveAddress getAddress(String addressId) {
+        UmsMemberReceiveAddress address = new UmsMemberReceiveAddress();
+        address.setId(Long.parseLong(addressId));
+        return addressMapper.selectOne(address);
+    }
 }

@@ -36,4 +36,6 @@ public interface MemberService {
     void setMemberToken(Long id, String token);
 
     void insertSocial(UmsMember um);
+
+    UmsMemberReceiveAddress getAddress(String addressId);
 }

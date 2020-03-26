@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.lang.reflect.Member;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
@@ -123,7 +124,12 @@ public class OmsCartItem implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public OmsCartItem(PmsSkuInfo sku,Integer quantity,Long memberId) {
+    public OmsCartItem(String memberId,String isChecked) {
+        this.memberId = Long.parseLong(memberId);
+        this.isChecked = isChecked;
+    }
+
+    public OmsCartItem(PmsSkuInfo sku, Integer quantity, Long memberId) {
         BeanUtils.copyProperties(sku,this);
         this.id = null;
         this.productSkuId = sku.getId();

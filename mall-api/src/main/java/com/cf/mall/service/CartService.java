@@ -22,4 +22,6 @@ public interface CartService {
     List<OmsCartItem> listCart(String memberId);
 
     void checkedCart(OmsCartItem cartItem);
+
+    void removeItem(OmsCartItem cartItem);
 }

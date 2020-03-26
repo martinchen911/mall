@@ -2,6 +2,7 @@ package com.cf.mall.service;
 
 import com.cf.mall.bean.PmsSkuInfo;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -36,4 +37,6 @@ public interface SkuService {
      * @return
      */
     List<PmsSkuInfo> listSku();
+
+    boolean checkPrice(Long id ,BigDecimal price);
 }

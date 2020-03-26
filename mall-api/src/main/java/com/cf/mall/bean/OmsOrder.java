@@ -7,6 +7,8 @@ import java.util.List;
 
 import lombok.Data;
 
+import javax.persistence.*;
+
 /**
  * oms_order
  * @author 
@@ -16,6 +18,9 @@ public class OmsOrder implements Serializable {
     /**
      * 订单id
      */
+    @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Long memberId;
@@ -227,6 +232,7 @@ public class OmsOrder implements Serializable {
      */
     private Date modifyTime;
 
+    @Transient
     private List<OmsOrderItem> orderItemList;
 
     private static final long serialVersionUID = 1L;

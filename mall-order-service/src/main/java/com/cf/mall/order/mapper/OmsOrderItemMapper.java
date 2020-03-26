@@ -1,4 +1,4 @@
-package com.cf.mall.mapper;
+package com.cf.mall.order.mapper;
 
 import com.cf.mall.bean.OmsOrderItem;
 import tk.mybatis.mapper.common.Mapper;

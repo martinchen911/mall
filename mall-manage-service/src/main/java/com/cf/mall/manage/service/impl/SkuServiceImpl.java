@@ -17,7 +17,9 @@ import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import redis.clients.jedis.Jedis;
+import tk.mybatis.mapper.entity.Example;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -133,6 +135,17 @@ public class SkuServiceImpl implements SkuService {
             s.setSkuAttrValueList(attrValueMapper.select(attrValue));
         });
         return skuInfos;
+    }
+
+    @Override
+    public boolean checkPrice(Long id, BigDecimal price) {
+        boolean flag = false;
+
+        PmsSkuInfo skuInfo = infoMapper.selectByPrimaryKey(id);
+        if (null != skuInfo && new BigDecimal(String.valueOf(skuInfo.getPrice())).equals(price)) {
+            flag = true;
+        }
+        return flag;
     }
 
 

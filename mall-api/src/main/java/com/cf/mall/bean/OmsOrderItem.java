@@ -107,6 +107,7 @@ public class OmsOrderItem implements Serializable {
 
     public OmsOrderItem(OmsCartItem cartItem) {
         BeanUtils.copyProperties(cartItem,this);
+        this.id = null;
         this.productQuantity = cartItem.getQuantity();
         this.productPrice = cartItem.getPrice();
     }
