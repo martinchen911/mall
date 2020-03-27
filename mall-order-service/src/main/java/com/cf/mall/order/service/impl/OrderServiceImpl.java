@@ -9,6 +9,7 @@ import com.cf.mall.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import redis.clients.jedis.Jedis;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.UUID;
 
@@ -66,5 +67,12 @@ public class OrderServiceImpl implements OrderService {
             x.setOrderSn(order.getOrderSn());
             orderItemMapper.insertSelective(x);
         });
+    }
+
+    @Override
+    public OmsOrder getOrderByOrderNo(String outOrderNo) {
+        Example e = new Example(OmsOrder.class);
+        e.createCriteria().andEqualTo("orderSn",outOrderNo);
+        return orderMapper.selectOneByExample(e);
     }
 }

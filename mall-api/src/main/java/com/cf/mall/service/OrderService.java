@@ -15,4 +15,6 @@ public interface OrderService {
     boolean checkTradeCode(String memberId,String code);
 
     void save(OmsOrder order);
+
+    OmsOrder getOrderByOrderNo(String outOrderNo);
 }

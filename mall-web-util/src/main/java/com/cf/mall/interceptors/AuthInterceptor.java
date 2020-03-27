@@ -67,14 +67,14 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
                 return false;
             }
             request.setAttribute("memberId",verify.get("memberId"));
-            request.setAttribute("nikeName",verify.get("nikeName"));
+            request.setAttribute("nickName",verify.get("nickName"));
             CookieUtil.setCookie(request,response,"oldToken",token,60*60*2,true);
 
         } else {
             // 根据登录状态走不同分支
             if (null != verify && verify.get("status").equals("success")) {
                 request.setAttribute("memberId",verify.get("memberId"));
-                request.setAttribute("nikeName",verify.get("nikeName"));
+                request.setAttribute("nickName",verify.get("nickName"));
                 CookieUtil.setCookie(request,response,"oldToken",token,60*60*2,true);
             }
         }

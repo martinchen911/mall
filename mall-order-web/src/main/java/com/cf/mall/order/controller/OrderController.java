@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -51,10 +52,11 @@ public class OrderController {
      */
     @PostMapping("submitOrder")
     @LoginRequired
-    public String submitOrder(String addressId,String tradeCode,ModelMap map, HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView submitOrder(String addressId, String tradeCode, ModelMap map, HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mv = new ModelAndView("fail");
         if (StringUtils.isNotBlank(tradeCode)) {
             String memberId = String.valueOf(request.getAttribute("memberId"));
-            String nikeName = String.valueOf(request.getAttribute("nikeName"));
+            String nickName = String.valueOf(request.getAttribute("nickName"));
             // 校验tradeCode
             boolean checkTradeCode = orderService.checkTradeCode(memberId, tradeCode);
             if (checkTradeCode) {
@@ -67,32 +69,35 @@ public class OrderController {
                         .filter(x -> x.getIsChecked().equals("1")).collect(Collectors.toList());
                 for (OmsCartItem x : cartItems) {
                     if (skuService.checkPrice(x.getProductSkuId(),x.getPrice())) {
-                        return "fail";
+                        return mv;
                     }
                 }
-                
+
                 // 3.封装订单数据
-                OmsOrder order = buildOrder(memberId,nikeName,addressId);
+                OmsOrder order = buildOrder(memberId,nickName,addressId);
                 orderService.save(order);
 
                 // 4.删除对应购物车数据
-                cartService.removeItem(new OmsCartItem(memberId,"1"));
+                //cartService.removeItem(new OmsCartItem(memberId,"1"));
 
                 // 重定向到支付页面
-                return "pay";
+                mv.setViewName("redirect:http://payment.mall.com:8087/index");
+                mv.addObject("outTradeNo",order.getOrderSn());
+                mv.addObject("totalAmount",order.getTotalAmount());
+                return mv;
             }
         }
-        return "fail";
+        return mv;
     }
 
     /**
      * 封装订单信息
      * @param memberId
-     * @param nikeName
+     * @param nickName
      * @param addressId
      * @return
      */
-    private OmsOrder buildOrder(String memberId,String nikeName, String addressId) {
+    private OmsOrder buildOrder(String memberId,String nickName, String addressId) {
         OmsOrder order = new OmsOrder();
 
         // 获得选中商品列表
@@ -120,7 +125,7 @@ public class OrderController {
         order.setMemberId(Long.parseLong(memberId));
         order.setOrderSn(orderSn);
         order.setCreateTime(new Date());
-        order.setMemberUsername(nikeName);
+        order.setMemberUsername(nickName);
         order.setTotalAmount(totalAmount);
         order.setStatus(0);
         order.setOrderType(0);

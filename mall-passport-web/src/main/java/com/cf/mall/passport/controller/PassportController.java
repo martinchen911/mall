@@ -39,7 +39,7 @@ public class PassportController {
         if (null != tkMap) {
             map.put("status","success");
             map.put("memberId",String.valueOf(tkMap.get("memberId")));
-            map.put("nikeName",String.valueOf(tkMap.get("nikeName")));
+            map.put("nickName",String.valueOf(tkMap.get("nickName")));
         } else {
             map.put("status","fail");
         }
@@ -58,7 +58,7 @@ public class PassportController {
             // 准备私有数据
             Map<String,Object> tkMap = new HashMap<>(4);
             tkMap.put("memberId",umsMember.getId());
-            tkMap.put("nikeName",umsMember.getNickname());
+            tkMap.put("nickName",umsMember.getNickname());
 
             // 准备salt
             String salt = RequestUtil.getIpAddress(request);
