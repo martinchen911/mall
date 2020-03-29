@@ -33,7 +33,12 @@ spring:
     consumer:
       timeout: 60000
       retries: 0
+  activemq:
+    broker-url: tcp://192.168.9.191:61616
 
+activemq:
+  listener:
+    enable: true
 
 # myBatis
 mybatis:

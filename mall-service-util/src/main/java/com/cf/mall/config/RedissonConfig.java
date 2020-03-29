@@ -1,4 +1,4 @@
-package com.cf.mall.util;
+package com.cf.mall.config;
 
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;

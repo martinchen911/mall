@@ -9,8 +9,9 @@ import com.cf.mall.bean.OmsOrder;
 public interface OrderService {
 
 
-    String genTradeCode(String memberId);
+    void updateByOrderSn(OmsOrder order);
 
+    String genTradeCode(String memberId);
 
     boolean checkTradeCode(String memberId,String code);
 

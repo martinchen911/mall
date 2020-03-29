@@ -63,7 +63,7 @@ public class AlipayController {
             info.setCallbackTime(new Date());
             paymentService.update(info);
         }
-        // 支付成功，启动对应服务：订单 -> 库存 -> 物流
+
 
         return "finish";
     }
