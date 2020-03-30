@@ -80,10 +80,14 @@ public class OrderController {
                 // 4.删除对应购物车数据
                 //cartService.removeItem(new OmsCartItem(memberId,"1"));
 
+
+
                 // 重定向到支付页面
                 mv.setViewName("redirect:http://payment.mall.com:8087/index");
                 mv.addObject("outTradeNo",order.getOrderSn());
                 mv.addObject("totalAmount",order.getTotalAmount());
+
+
                 return mv;
             }
         }
