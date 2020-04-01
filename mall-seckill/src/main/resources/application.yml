@@ -1,0 +1,56 @@
+
+# 服务
+server:
+  port: 8088
+
+
+spring:
+  # datasource
+  datasource:
+    url: jdbc:mysql://192.168.9.191:3306/gmall?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 1024
+    type: com.alibaba.druid.pool.DruidDataSource
+  # redis 配置
+  redis:
+    host: 192.168.9.191
+    port: 6379
+    database: 0
+  # dubbo 的配置
+  dubbo:
+    application: mall-seckill  #服务名称
+    registry:
+      address: 192.168.9.191:2181 #zookeeper 注册地址
+      protocol: zookeeper # zookeeper的通讯协议名称
+    protocol:
+      name: dubbo # dubbo 的通讯协议名称
+      port: 20888 # 服务调用端口
+    base-package: com.cf.mall #dubbo 的服务扫描路径
+    consumer:
+      timeout: 60000
+      retries: 0
+  # 模板的配置
+  thymeleaf:
+    cache: false
+    mode: LEGACYHTML5
+  activemq:
+    broker-url: tcp://192.168.9.191:61616
+
+activemq:
+  listener:
+    enable: true
+
+
+# myBatis
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package: com.cf.mall.user.domain
+  configuration:
+    map-underscore-to-camel-case: true #开启驼峰命名
+
+#showSql
+logging:
+  level: info
+
+
