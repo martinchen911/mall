@@ -82,7 +82,7 @@
         <dependency>
             <groupId>org.csource</groupId>
             <artifactId>fastdfs-client-java</artifactId>
-            <version>1.2.7</version>
+            <version>1.29-SNAPSHOT</version>
             <exclusions>
                 <exclusion>
                     <artifactId>slf4j-log4j12</artifactId>
