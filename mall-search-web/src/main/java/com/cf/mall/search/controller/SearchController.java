@@ -100,4 +100,10 @@ public class SearchController {
     public String index() {
         return "index";
     }
+
+    @RequestMapping("")
+    @LoginRequired(loginSuccess = false)
+    public String home() {
+        return "index";
+    }
 }

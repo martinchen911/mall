@@ -11,9 +11,9 @@ import com.cf.mall.util.CookieUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.naming.Name;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.LinkedList;
@@ -56,11 +56,11 @@ public class CartController {
 
         // 用户id
         String memberId = String.valueOf(request.getAttribute("memberId"));
-        OmsCartItem cartItem = new OmsCartItem(sku,quantity,Long.parseLong(memberId));
+        OmsCartItem cartItem = new OmsCartItem(sku,quantity);
 
 
         // 未登录存cookie，登录存DB
-        if(StringUtils.isBlank(memberId)) {
+        if(StringUtils.isBlank(memberId) || "null".equals(memberId)) {
             String cartCookie = CookieUtil.getCookieValue(request,"cartItemList",true);
             List<OmsCartItem> cartItemList = new LinkedList<>();
             if (StringUtils.isNotBlank(cartCookie)) {
@@ -75,6 +75,7 @@ public class CartController {
             }
             CookieUtil.setCookie(request,response,"cartListCookie",cartItemList,60*60*72,true);
         } else {
+            cartItem.setMemberId(Long.parseLong(memberId));
             OmsCartItem cartDB = cartService.getCartItem(cartItem);
             if (null == cartDB) {
                 cartDB = cartItem;
@@ -93,7 +94,7 @@ public class CartController {
     public String cartList(ModelMap map,HttpServletRequest request, HttpServletResponse response) {
         List<OmsCartItem> cartItems = new LinkedList<>();
         String memberId = String.valueOf(request.getAttribute("memberId"));
-        if (StringUtils.isBlank(memberId)) {
+        if (StringUtils.isBlank(memberId) || "null".equals(memberId)) {
             String cookieStr = CookieUtil.getCookieValue(request, "cartListCookie", true);
             if (StringUtils.isNotBlank(cookieStr)) {
                 cartItems = JSON.parseArray(cookieStr,OmsCartItem.class);

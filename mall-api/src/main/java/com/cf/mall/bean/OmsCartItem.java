@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
-import java.lang.reflect.Member;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
@@ -129,11 +128,10 @@ public class OmsCartItem implements Serializable {
         this.isChecked = isChecked;
     }
 
-    public OmsCartItem(PmsSkuInfo sku, Integer quantity, Long memberId) {
+    public OmsCartItem(PmsSkuInfo sku, Integer quantity) {
         BeanUtils.copyProperties(sku,this);
         this.id = null;
         this.productSkuId = sku.getId();
-        this.memberId = memberId;
         this.quantity = quantity;
         this.price = new BigDecimal(sku.getPrice());
         // 销售属性
