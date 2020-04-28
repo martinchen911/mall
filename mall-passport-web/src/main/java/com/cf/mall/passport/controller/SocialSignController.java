@@ -7,15 +7,14 @@ import com.cf.mall.service.MemberService;
 import com.cf.mall.util.HttpclientUtil;
 import com.cf.mall.util.JwtUtil;
 import com.cf.mall.util.RequestUtil;
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @Author chen
