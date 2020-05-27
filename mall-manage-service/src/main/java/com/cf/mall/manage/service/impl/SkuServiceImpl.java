@@ -1,6 +1,5 @@
 package com.cf.mall.manage.service.impl;
 
-import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
 import com.cf.mall.bean.PmsSkuAttrValue;
 import com.cf.mall.bean.PmsSkuImage;
@@ -16,8 +15,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import redis.clients.jedis.Jedis;
-import tk.mybatis.mapper.entity.Example;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -27,7 +29,8 @@ import java.util.concurrent.TimeUnit;
  * @Author chen
  * @Date 2020/1/15
  */
-@Service
+@RequestMapping("sku")
+@RestController
 public class SkuServiceImpl implements SkuService {
 
     @Autowired
@@ -45,6 +48,7 @@ public class SkuServiceImpl implements SkuService {
 
 
 
+    @PostMapping("saveSkuInfo")
     @Override
     public void saveSkuInfo(PmsSkuInfo skuInfo) {
         // 保存 sku 基本信息
@@ -68,6 +72,7 @@ public class SkuServiceImpl implements SkuService {
 
     }
 
+    @GetMapping("getSku")
     @Override
     public PmsSkuInfo getSku(String id) {
         // 生成 key
@@ -121,11 +126,13 @@ public class SkuServiceImpl implements SkuService {
         return skuInfo;
     }
 
+    @GetMapping("listSku")
     @Override
     public List<PmsSkuInfo> listSku(Long productId) {
         return infoMapper.selectSkuValue(productId);
     }
 
+    @GetMapping("listSku1")
     @Override
     public List<PmsSkuInfo> listSku() {
         List<PmsSkuInfo> skuInfos = infoMapper.selectAll();
@@ -137,6 +144,7 @@ public class SkuServiceImpl implements SkuService {
         return skuInfos;
     }
 
+    @GetMapping("checkPrice")
     @Override
     public boolean checkPrice(Long id, BigDecimal price) {
         boolean flag = false;

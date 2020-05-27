@@ -1,6 +1,5 @@
 package com.cf.mall.user.service.impl;
 
-import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
 import com.cf.mall.bean.UmsMember;
 import com.cf.mall.bean.UmsMemberReceiveAddress;
@@ -10,6 +9,7 @@ import com.cf.mall.user.mapper.UmsMemberReceiveAddressMapper;
 import com.cf.mall.util.RedisUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 import tk.mybatis.mapper.entity.Example;
 

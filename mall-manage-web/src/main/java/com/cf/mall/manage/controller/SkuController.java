@@ -1,8 +1,8 @@
 package com.cf.mall.manage.controller;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.cf.mall.bean.PmsSkuInfo;
 import com.cf.mall.service.SkuService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 public class SkuController {
 
-    @Reference
+    @Autowired
     private SkuService skuService;
 
     @PostMapping("saveSkuInfo")

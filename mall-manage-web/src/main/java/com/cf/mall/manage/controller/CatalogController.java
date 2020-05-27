@@ -1,10 +1,10 @@
 package com.cf.mall.manage.controller;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.cf.mall.bean.PmsBaseCatalog1;
 import com.cf.mall.bean.PmsBaseCatalog2;
 import com.cf.mall.bean.PmsBaseCatalog3;
 import com.cf.mall.service.CatalogService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +21,7 @@ import java.util.List;
 @CrossOrigin
 public class CatalogController {
 
-    @Reference
+    @Autowired
     private CatalogService catalogService;
 
     @PostMapping("/getCatalog1")

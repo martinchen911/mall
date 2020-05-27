@@ -1,0 +1,14 @@
+server:
+  port: 2181
+
+spring:
+  application:
+    name: mall-register
+
+eureka:
+  client:
+    # 注册服务
+    register-with-eureka: false
+    # 检索服务
+    fetch-registry: false
+

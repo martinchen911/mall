@@ -1,6 +1,5 @@
 package com.cf.mall.manage.service.impl;
 
-import com.alibaba.dubbo.config.annotation.Service;
 import com.cf.mall.bean.PmsProductImage;
 import com.cf.mall.bean.PmsProductInfo;
 import com.cf.mall.bean.PmsProductSaleAttr;
@@ -11,6 +10,7 @@ import com.cf.mall.manage.mapper.PmsProductSaleAttrMapper;
 import com.cf.mall.manage.mapper.PmsProductSaleAttrValueMapper;
 import com.cf.mall.service.SpuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
  * @Author chen
  * @Date 2020/1/12
  */
-@Service
+@RestController
 public class SpuServiceImpl implements SpuService {
 
     @Autowired

@@ -1,11 +1,11 @@
 package com.cf.mall.manage.controller;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.cf.mall.bean.PmsProductImage;
 import com.cf.mall.bean.PmsProductInfo;
 import com.cf.mall.bean.PmsProductSaleAttr;
-import com.cf.mall.util.UploadUtil;
 import com.cf.mall.service.SpuService;
+import com.cf.mall.util.UploadUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,7 +19,7 @@ import java.util.List;
 @CrossOrigin
 public class SpuController {
 
-    @Reference
+    @Autowired
     private SpuService spuService;
 
     @PostMapping("/fileUpload")

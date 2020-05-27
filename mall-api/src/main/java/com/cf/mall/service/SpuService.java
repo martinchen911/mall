@@ -3,6 +3,10 @@ package com.cf.mall.service;
 import com.cf.mall.bean.PmsProductImage;
 import com.cf.mall.bean.PmsProductInfo;
 import com.cf.mall.bean.PmsProductSaleAttr;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -12,6 +16,7 @@ import java.util.List;
  * @Author chen
  * @Date 2020/1/12
  */
+@FeignClient("manage-service")
 public interface SpuService {
 
     /**
@@ -19,6 +24,7 @@ public interface SpuService {
      * @param catalog3Id 三级分类
      * @return
      */
+    @GetMapping("/spu/spuList")
     List<PmsProductInfo> spuList(String catalog3Id);
 
     /**
@@ -26,6 +32,7 @@ public interface SpuService {
      * @param spuId 商品id
      * @return
      */
+    @GetMapping("/spu/spuSaleAttrList")
     List<PmsProductSaleAttr> spuSaleAttrList(String spuId);
 
     /**
@@ -33,12 +40,14 @@ public interface SpuService {
      * @param spuId
      * @return
      */
+    @GetMapping("/spu/spuImageList")
     List<PmsProductImage> spuImageList(String spuId);
 
     /**
      * 保存 spu
      * @param productInfo
      */
+    @PostMapping("/spu/saveSpuInfo")
     void saveSpuInfo(PmsProductInfo productInfo);
 
     /**
@@ -46,5 +55,6 @@ public interface SpuService {
      * @param spuId
      * @return
      */
-    List<PmsProductSaleAttr> spuSaleAttrListCheckBySku(Long spuId,Long skuId);
+    @GetMapping("/spu/spuSaleAttrListCheckBySku")
+    List<PmsProductSaleAttr> spuSaleAttrListCheckBySku(@RequestParam("spuId") Long spuId,@RequestParam("skuId") Long skuId);
 }

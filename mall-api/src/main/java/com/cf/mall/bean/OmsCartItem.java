@@ -1,7 +1,6 @@
 package com.cf.mall.bean;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
 import javax.persistence.Column;
@@ -18,7 +17,6 @@ import java.util.Objects;
  * @author 
  */
 @Data
-@NoArgsConstructor
 public class OmsCartItem implements Serializable {
     @Id
     @Column

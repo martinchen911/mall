@@ -1,9 +1,11 @@
 package com.cf.mall.config;
 
+import com.cf.mall.condition.MqCondition;
 import com.cf.mall.util.ActiveMQUtil;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 
@@ -23,11 +25,9 @@ public class ActiveMQConfig {
     @Value("${activemq.listener.enable:disabled}")
     String listenerEnable;
 
+    @Conditional(MqCondition.class)
     @Bean
     public ActiveMQUtil getActiveMQUtil() throws JMSException {
-        if ("disabled".equals(brokerURL)) {
-            return null;
-        }
         ActiveMQUtil activeMQUtil = new ActiveMQUtil();
         activeMQUtil.init(brokerURL);
         return activeMQUtil;
@@ -38,12 +38,10 @@ public class ActiveMQConfig {
      * @param activeMQConnectionFactory
      * @return
      */
+    @Conditional(MqCondition.class)
     @Bean(name = "jmsQueueListener")
     public DefaultJmsListenerContainerFactory jmsQueueListenerContainerFactory(ActiveMQConnectionFactory activeMQConnectionFactory) {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-        if (!listenerEnable.equals("true")) {
-            return null;
-        }
 
         factory.setConnectionFactory(activeMQConnectionFactory);
         //设置并发数
@@ -58,14 +56,17 @@ public class ActiveMQConfig {
     }
 
 
+    @Conditional(MqCondition.class)
     @Bean
     public ActiveMQConnectionFactory activeMQConnectionFactory() {
-/*        if((url==null||url.equals(""))&&!brokerURL.equals("disabled")){
-            url=brokerURL;
-        }*/
+
         ActiveMQConnectionFactory activeMQConnectionFactory =
                 new ActiveMQConnectionFactory(brokerURL);
         return activeMQConnectionFactory;
     }
+
+
+
+
 
 }

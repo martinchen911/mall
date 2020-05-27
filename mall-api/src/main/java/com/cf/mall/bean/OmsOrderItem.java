@@ -1,17 +1,16 @@
 package com.cf.mall.bean;
 
+import lombok.Data;
+import org.springframework.beans.BeanUtils;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.BeanUtils;
 
 /**
  * oms_order_item
  * @author 
  */
 @Data
-@NoArgsConstructor
 public class OmsOrderItem implements Serializable {
     private Long id;
 

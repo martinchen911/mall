@@ -8,6 +8,7 @@
 | mall-common-util    | /       | /        | 公共工具           |
 | mall-service-util   | /       | /        | 服务工具           |
 | mall-web-util       | /       | /        | web工具            |
+| mall-register       | 2181    |          |                    |
 | mall-user-service   | 8060    | 20880    | 用户服务层         |
 | mall-user-web       | 8080    |          | 用户web            |
 | mall-manage-service | 8061    | 20881    | 后台管理服务层     |
@@ -22,5 +23,4 @@
 | mall-order-web      | 8086    | 20886    | 结算访问           |
 |                     |         |          |                    |
 
-s
 

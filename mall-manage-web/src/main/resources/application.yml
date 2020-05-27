@@ -5,20 +5,19 @@ server:
 
 
 spring:
-  # dubbo 的配置
-  dubbo:
-    application: manage-web  #服务名称
-    registry:
-      address: 192.168.9.191:2181 #zookeeper 注册地址
-      protocol: zookeeper # zookeeper的通讯协议名称
-    protocol:
-      name: dubbo # dubbo 的通讯协议名称
-    base-package: com.cf.mall #dubbo 的服务扫描路径
-    #消费配置
-    consumer:
-      timeout: 2000
-      check: false
+  application:
+    name: spring:manage-web  #服务名称
 
+eureka:
+  client:
+    # 注册地址
+    service-url:
+      defaultZone: http://192.168.9.185:2181/eureka/
+  instance:
+    # ip注册
+    prefer-ip-address: true
+    # 实例 id 格式
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
 
 # 日志输出
 logging:

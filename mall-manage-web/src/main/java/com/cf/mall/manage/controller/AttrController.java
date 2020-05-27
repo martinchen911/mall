@@ -1,10 +1,10 @@
 package com.cf.mall.manage.controller;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.cf.mall.bean.PmsBaseAttrInfo;
 import com.cf.mall.bean.PmsBaseAttrValue;
 import com.cf.mall.bean.PmsBaseSaleAttr;
 import com.cf.mall.service.AttrService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
 @CrossOrigin
 public class AttrController {
 
-    @Reference
+    @Autowired
     private AttrService attrService;
 
     @GetMapping("/attrInfoList")
