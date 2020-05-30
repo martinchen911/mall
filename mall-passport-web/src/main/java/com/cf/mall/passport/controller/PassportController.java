@@ -1,10 +1,10 @@
 package com.cf.mall.passport.controller;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.cf.mall.bean.UmsMember;
 import com.cf.mall.service.MemberService;
 import com.cf.mall.util.JwtUtil;
 import com.cf.mall.util.RequestUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -26,7 +26,7 @@ public class PassportController {
     @Value("${global-constant.security.key}")
     private String key;
 
-    @Reference
+    @Autowired
     private MemberService memberService;
 
 

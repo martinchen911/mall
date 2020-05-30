@@ -2,6 +2,9 @@ package com.cf.mall.service;
 
 import com.cf.mall.bean.PmsSearchParam;
 import com.cf.mall.bean.PmsSearchSkuInfo;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -10,6 +13,7 @@ import java.util.List;
  * @Author chen
  * @Date 2020/3/8
  */
+@FeignClient("search-service")
 public interface SearchService {
 
 
@@ -18,5 +22,6 @@ public interface SearchService {
      * @param param
      * @return
      */
-    List<PmsSearchSkuInfo> list(PmsSearchParam param);
+    @PostMapping("/list")
+    List<PmsSearchSkuInfo> list(@RequestBody PmsSearchParam param);
 }

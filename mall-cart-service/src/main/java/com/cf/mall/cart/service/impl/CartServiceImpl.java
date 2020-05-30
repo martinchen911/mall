@@ -1,6 +1,5 @@
 package com.cf.mall.cart.service.impl;
 
-import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
 import com.cf.mall.bean.OmsCartItem;
 import com.cf.mall.cart.mapper.OmsCartItemMapper;
@@ -8,6 +7,7 @@ import com.cf.mall.service.CartService;
 import com.cf.mall.util.RedisUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 import redis.clients.jedis.Jedis;
 import tk.mybatis.mapper.entity.Example;
 
@@ -19,7 +19,8 @@ import java.util.stream.Collectors;
  * @Author chen
  * @Date 2020/3/13
  */
-@Service
+
+@RestController
 public class CartServiceImpl implements CartService {
 
     @Autowired
@@ -27,9 +28,9 @@ public class CartServiceImpl implements CartService {
     @Autowired
     private RedisUtil redisUtil;
 
-
+    @PostMapping("getCartItem")
     @Override
-    public OmsCartItem getCartItem(OmsCartItem cartItem) {
+    public OmsCartItem getCartItem(@RequestBody OmsCartItem cartItem) {
         cartItem.setQuantity(null);
         Jedis jedis = redisUtil.getJedis();
         String s = jedis.hget("user:"+cartItem.getMemberId()+":cart",cartItem.getProductSkuId().toString());
@@ -38,18 +39,21 @@ public class CartServiceImpl implements CartService {
                 :JSON.parseObject(s,OmsCartItem.class);
     }
 
+    @PostMapping("saveCartItem")
     @Override
-    public void saveCartItem(OmsCartItem cartItem) {
+    public void saveCartItem(@RequestBody OmsCartItem cartItem) {
         cartItemMapper.insertSelective(cartItem);
     }
 
+    @PostMapping("updateCartItem")
     @Override
-    public void updateCartItem(OmsCartItem cartItem) {
+    public void updateCartItem(@RequestBody OmsCartItem cartItem) {
         cartItemMapper.updateByPrimaryKeySelective(cartItem);
     }
 
+    @PostMapping("flushCartCache")
     @Override
-    public void flushCartCache(String memberId) {
+    public void flushCartCache(@RequestParam String memberId) {
         String key = "user:"+memberId+":cart";
         try (Jedis jedis = redisUtil.getJedis()) {
             Example e = new Example(OmsCartItem.class);
@@ -65,8 +69,9 @@ public class CartServiceImpl implements CartService {
         }
     }
 
+    @PostMapping("listCart")
     @Override
-    public List<OmsCartItem> listCart(String memberId) {
+    public List<OmsCartItem> listCart(@RequestParam String memberId) {
         List<OmsCartItem> list = null;
         try (Jedis jedis = redisUtil.getJedis()) {
             List<String> hvals = jedis.hvals("user:" + memberId + ":cart");
@@ -77,8 +82,9 @@ public class CartServiceImpl implements CartService {
         return list;
     }
 
+    @PostMapping("checkedCart")
     @Override
-    public void checkedCart(OmsCartItem cartItem) {
+    public void checkedCart(@RequestBody OmsCartItem cartItem) {
 
         Example e = new Example(OmsCartItem.class);
         e.createCriteria().andEqualTo("memberId",cartItem.getMemberId())

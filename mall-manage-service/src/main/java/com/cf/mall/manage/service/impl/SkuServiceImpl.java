@@ -15,10 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import redis.clients.jedis.Jedis;
 
 import java.math.BigDecimal;
@@ -50,7 +47,7 @@ public class SkuServiceImpl implements SkuService {
 
     @PostMapping("saveSkuInfo")
     @Override
-    public void saveSkuInfo(PmsSkuInfo skuInfo) {
+    public void saveSkuInfo(@RequestBody PmsSkuInfo skuInfo) {
         // 保存 sku 基本信息
         infoMapper.insertSelective(skuInfo);
 
@@ -72,9 +69,9 @@ public class SkuServiceImpl implements SkuService {
 
     }
 
-    @GetMapping("getSku")
+    @PostMapping("getSku")
     @Override
-    public PmsSkuInfo getSku(String id) {
+    public PmsSkuInfo getSku(@RequestParam String id) {
         // 生成 key
         String key = "PmsSkuInfo:"+id+":getSku";
 
@@ -126,15 +123,15 @@ public class SkuServiceImpl implements SkuService {
         return skuInfo;
     }
 
-    @GetMapping("listSku")
+    @PostMapping("listSku")
     @Override
-    public List<PmsSkuInfo> listSku(Long productId) {
+    public List<PmsSkuInfo> listSku(@RequestParam("productId") Long productId) {
         return infoMapper.selectSkuValue(productId);
     }
 
     @GetMapping("listSku1")
     @Override
-    public List<PmsSkuInfo> listSku() {
+    public List<PmsSkuInfo> listSku1() {
         List<PmsSkuInfo> skuInfos = infoMapper.selectAll();
         skuInfos.forEach(s -> {
             PmsSkuAttrValue attrValue = new PmsSkuAttrValue();
@@ -144,9 +141,9 @@ public class SkuServiceImpl implements SkuService {
         return skuInfos;
     }
 
-    @GetMapping("checkPrice")
+    @PostMapping("checkPrice")
     @Override
-    public boolean checkPrice(Long id, BigDecimal price) {
+    public boolean checkPrice(@RequestParam("id") Long id,@RequestParam("price") BigDecimal price) {
         boolean flag = false;
 
         PmsSkuInfo skuInfo = infoMapper.selectByPrimaryKey(id);

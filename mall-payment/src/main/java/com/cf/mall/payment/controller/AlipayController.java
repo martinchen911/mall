@@ -1,6 +1,5 @@
 package com.cf.mall.payment.controller;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.cf.mall.annotations.LoginRequired;
 import com.cf.mall.bean.OmsOrder;
 import com.cf.mall.bean.PaymentInfo;
@@ -28,7 +27,7 @@ public class AlipayController {
 
     @Autowired
     PaymentService paymentService;
-    @Reference
+    @Autowired
     OrderService orderService;
     @Autowired
     ActiveMQUtil activeMQUtil;

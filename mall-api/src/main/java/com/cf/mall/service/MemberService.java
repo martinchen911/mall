@@ -3,6 +3,8 @@ package com.cf.mall.service;
 
 import com.cf.mall.bean.UmsMember;
 import com.cf.mall.bean.UmsMemberReceiveAddress;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -12,30 +14,42 @@ import java.util.List;
  * @Author chen
  * @Date 2019/12/31
  */
+@FeignClient("user-service")
 public interface MemberService {
 
+    @DeleteMapping("/member/deleteByPrimaryKey")
+    int deleteByPrimaryKey(@RequestParam String id);
 
-    int deleteByPrimaryKey(String id);
+    @PostMapping("/member/insert")
+    int insert(@RequestBody UmsMember record);
 
-    int insert(UmsMember record);
+    @PostMapping("/member/insertSelective")
+    int insertSelective(@RequestBody UmsMember record);
 
-    int insertSelective(UmsMember record);
+    @PostMapping("/member/selectByPrimaryKey")
+    UmsMember selectByPrimaryKey(@RequestParam String id);
 
-    UmsMember selectByPrimaryKey(String id);
+    @PostMapping("/member/selectByMemberKey")
+    List<UmsMemberReceiveAddress> selectByMemberKey(@RequestParam String id);
 
-    List<UmsMemberReceiveAddress> selectByMemberKey(String id);
-
+    @GetMapping("/member/selectAll")
     List<UmsMember> selectAll();
 
-    int updateByPrimaryKeySelective(UmsMember record);
+    @PutMapping("/member/updateByPrimaryKeySelective")
+    int updateByPrimaryKeySelective(@RequestBody UmsMember record);
 
-    int updateByPrimaryKey(UmsMember record);
+    @PutMapping("/member/updateByPrimaryKey")
+    int updateByPrimaryKey(@RequestBody UmsMember record);
 
-    UmsMember login(UmsMember member);
+    @PostMapping("/member/login")
+    UmsMember login(@RequestBody UmsMember member);
 
-    void setMemberToken(Long id, String token);
+    @PutMapping("/member/setMemberToken")
+    void setMemberToken(@RequestParam("id") Long id,@RequestParam("token") String token);
 
-    void insertSocial(UmsMember um);
+    @PostMapping("/member/insertSocial")
+    void insertSocial(@RequestBody UmsMember um);
 
-    UmsMemberReceiveAddress getAddress(String addressId);
+    @PostMapping("/member/getAddress")
+    UmsMemberReceiveAddress getAddress(@RequestParam String addressId);
 }

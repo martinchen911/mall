@@ -1,6 +1,5 @@
 package com.cf.mall.cart.controller;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.cf.mall.annotations.LoginRequired;
 import com.cf.mall.bean.OmsCartItem;
@@ -9,6 +8,7 @@ import com.cf.mall.service.CartService;
 import com.cf.mall.service.SkuService;
 import com.cf.mall.util.CookieUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,12 +26,11 @@ import java.util.List;
 @Controller
 public class CartController {
 
-    @Reference
+    @Autowired
     private SkuService skuService;
 
-    @Reference
+    @Autowired
     private CartService cartService;
-
 
 
     @LoginRequired(loginSuccess=false)

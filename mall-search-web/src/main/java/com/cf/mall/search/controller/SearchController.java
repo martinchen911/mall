@@ -1,6 +1,5 @@
 package com.cf.mall.search.controller;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.cf.mall.annotations.LoginRequired;
 import com.cf.mall.bean.PmsBaseAttrInfo;
 import com.cf.mall.bean.PmsSearchCrumb;
@@ -9,6 +8,7 @@ import com.cf.mall.bean.PmsSearchSkuInfo;
 import com.cf.mall.service.AttrService;
 import com.cf.mall.service.SearchService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,10 +26,10 @@ import java.util.stream.Collectors;
 public class SearchController {
 
 
-    @Reference
+    @Autowired
     SearchService searchService;
 
-    @Reference
+    @Autowired
     AttrService attrService;
 
     @RequestMapping("list.html")

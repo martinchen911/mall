@@ -1,12 +1,12 @@
 package com.cf.mall.passport.controller;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.cf.mall.bean.UmsMember;
 import com.cf.mall.service.MemberService;
 import com.cf.mall.util.HttpclientUtil;
 import com.cf.mall.util.JwtUtil;
 import com.cf.mall.util.RequestUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +30,7 @@ public class SocialSignController {
     @Value("${global-constant.app.secret}")
     private String secret;
 
-    @Reference
+    @Autowired
     private MemberService memberService;
 
 

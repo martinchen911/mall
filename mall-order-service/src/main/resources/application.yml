@@ -7,39 +7,41 @@ server:
 spring:
   # datasource
   datasource:
-    url: jdbc:mysql://192.168.9.191:3306/gmall?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
+    url: jdbc:mysql://192.168.9.185:3306/gmall?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: 1024
     type: com.alibaba.druid.pool.DruidDataSource
   # redis 配置
   redis:
-    host: 192.168.9.191
+    host: 192.168.9.185
     port: 6379
     database: 0
-  # dubbo 的配置
-  dubbo:
-    application: order-service  #服务名称
-    registry:
-      address: 192.168.9.191:2181 #zookeeper 注册地址
-      protocol: zookeeper # zookeeper的通讯协议名称
-    protocol:
-      name: dubbo # dubbo 的通讯协议名称
-      port: 20886 # 服务调用端口
-    base-package: com.cf.mall #dubbo 的服务扫描路径
-    provider:
-      timeout: 60000
-      retries: 0
-    consumer:
-      timeout: 60000
-      retries: 0
   activemq:
-    broker-url: tcp://192.168.9.191:61616
+    broker-url: tcp://192.168.9.185:61616
+  application:
+    name: order-service
 
 activemq:
   listener:
     enable: true
 
+
+eureka:
+  client:
+    # 注册地址
+    service-url:
+      defaultZone: http://192.168.9.185:2181/eureka/
+  instance:
+    # ip注册
+    prefer-ip-address: true
+    # 实例 id 格式
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+feign:
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
 # myBatis
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml

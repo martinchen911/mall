@@ -9,7 +9,7 @@ import com.cf.mall.user.mapper.UmsMemberReceiveAddressMapper;
 import com.cf.mall.util.RedisUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.*;
 import redis.clients.jedis.Jedis;
 import tk.mybatis.mapper.entity.Example;
 
@@ -19,7 +19,8 @@ import java.util.List;
  * @Author chen
  * @Date 2019/12/31
  */
-@Service
+@RequestMapping("member")
+@RestController
 public class MemberServiceImpl implements MemberService {
 
     @Autowired
@@ -29,50 +30,59 @@ public class MemberServiceImpl implements MemberService {
     @Autowired
     private RedisUtil redisUtil;
 
+    @DeleteMapping("deleteByPrimaryKey")
     @Override
-    public int deleteByPrimaryKey(String id) {
+    public int deleteByPrimaryKey(@RequestParam String id) {
         return memberMapper.deleteByPrimaryKey(id);
     }
 
+    @PostMapping("insert")
     @Override
-    public int insert(UmsMember record) {
+    public int insert(@RequestBody UmsMember record) {
         return memberMapper.insert(record);
     }
 
+    @PostMapping("insertSelective")
     @Override
-    public int insertSelective(UmsMember record) {
+    public int insertSelective(@RequestBody UmsMember record) {
         return memberMapper.insertSelective(record);
     }
 
+    @PostMapping("selectByPrimaryKey")
     @Override
-    public UmsMember selectByPrimaryKey(String id) {
+    public UmsMember selectByPrimaryKey(@RequestParam String id) {
         return memberMapper.selectByPrimaryKey(id);
     }
 
+    @PostMapping("selectByMemberKey")
     @Override
-    public List<UmsMemberReceiveAddress> selectByMemberKey(String memberId) {
+    public List<UmsMemberReceiveAddress> selectByMemberKey(@RequestParam String memberId) {
         Example e = new Example(UmsMemberReceiveAddress.class);
         e.createCriteria().andEqualTo("memberId",memberId);
         return addressMapper.selectByExample(e);
     }
 
+    @GetMapping("selectAll")
     @Override
     public List<UmsMember> selectAll() {
         return memberMapper.selectAll();
     }
 
+    @PutMapping("updateByPrimaryKeySelective")
     @Override
-    public int updateByPrimaryKeySelective(UmsMember record) {
+    public int updateByPrimaryKeySelective(@RequestBody UmsMember record) {
         return memberMapper.updateByPrimaryKeySelective(record);
     }
 
+    @PutMapping("updateByPrimaryKey")
     @Override
-    public int updateByPrimaryKey(UmsMember record) {
+    public int updateByPrimaryKey(@RequestBody UmsMember record) {
         return memberMapper.updateByPrimaryKey(record);
     }
 
+    @PostMapping("login")
     @Override
-    public UmsMember login(UmsMember member) {
+    public UmsMember login(@RequestBody UmsMember member) {
         UmsMember loginMember = null;
 
         String key = "user:" + member.getUsername() + ":info";
@@ -95,8 +105,9 @@ public class MemberServiceImpl implements MemberService {
         return loginMember;
     }
 
+    @PutMapping("setMemberToken")
     @Override
-    public void setMemberToken(Long id, String token) {
+    public void setMemberToken(@RequestParam Long id,@RequestParam String token) {
         String key = "user:" + id + ":token";
         try (Jedis jedis = redisUtil.getJedis()) {
             jedis.setex(key,60*60*2,token);
@@ -105,8 +116,9 @@ public class MemberServiceImpl implements MemberService {
         }
     }
 
+    @PostMapping("insertSocial")
     @Override
-    public void insertSocial(UmsMember um) {
+    public void insertSocial(@RequestBody UmsMember um) {
         Example e = new Example(UmsMember.class);
         e.createCriteria().andEqualTo("sourceUid",um.getSourceUid());
         List<UmsMember> umsMemberList = memberMapper.selectByExample(e);
@@ -117,8 +129,9 @@ public class MemberServiceImpl implements MemberService {
         }
     }
 
+    @PostMapping("getAddress")
     @Override
-    public UmsMemberReceiveAddress getAddress(String addressId) {
+    public UmsMemberReceiveAddress getAddress(@RequestParam String addressId) {
         UmsMemberReceiveAddress address = new UmsMemberReceiveAddress();
         address.setId(Long.parseLong(addressId));
         return addressMapper.selectOne(address);

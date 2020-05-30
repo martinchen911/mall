@@ -9,10 +9,7 @@ import com.cf.mall.manage.mapper.PmsBaseSaleAttrMapper;
 import com.cf.mall.service.AttrService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
@@ -32,9 +29,9 @@ public class AttrServiceImpl implements AttrService {
     @Autowired
     private PmsBaseSaleAttrMapper saleAttrMapper;
 
-    @GetMapping("attrInfoList")
+    @PostMapping("attrInfoList")
     @Override
-    public List<PmsBaseAttrInfo> attrInfoList(String catalog3) {
+    public List<PmsBaseAttrInfo> attrInfoList(@RequestParam String catalog3) {
         Example e = new Example(PmsBaseAttrInfo.class);
         e.createCriteria().andEqualTo("catalog3Id",catalog3);
         List<PmsBaseAttrInfo> infos = attrInfoMapper.selectByExample(e);
@@ -46,9 +43,9 @@ public class AttrServiceImpl implements AttrService {
         });
         return infos;
     }
-    @GetMapping("getAttrValueList")
+    @PostMapping("getAttrValueList")
     @Override
-    public List<PmsBaseAttrValue> getAttrValueList(String attrId) {
+    public List<PmsBaseAttrValue> getAttrValueList(@RequestParam String attrId) {
         Example e = new Example(PmsBaseAttrValue.class);
         e.createCriteria().andEqualTo("attrId",attrId);
         return attrValueMapper.selectByExample(e);
@@ -57,7 +54,7 @@ public class AttrServiceImpl implements AttrService {
     @PostMapping("saveAttrInfo")
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void saveAttrInfo(PmsBaseAttrInfo attrInfo) {
+    public void saveAttrInfo(@RequestBody PmsBaseAttrInfo attrInfo) {
         if (attrInfo.getId() == null) {
             attrInfoMapper.insertSelective(attrInfo);
         } else {
@@ -78,9 +75,9 @@ public class AttrServiceImpl implements AttrService {
         return saleAttrMapper.selectAll();
     }
 
-    @GetMapping("listAttr")
+    @PostMapping("listAttr")
     @Override
-    public List<PmsBaseAttrInfo> listAttr(List<Long> ids) {
+    public List<PmsBaseAttrInfo> listAttr(@RequestBody List<Long> ids) {
         return attrInfoMapper.selectAttrByValueIds(ids);
     }
 }

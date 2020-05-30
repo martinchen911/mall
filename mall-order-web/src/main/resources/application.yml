@@ -5,28 +5,29 @@ server:
 
 
 spring:
-  # dubbo 的配置
-  dubbo:
-    application: order-web  #服务名称
-    registry:
-      address: 192.168.9.191:2181 #zookeeper 注册地址
-      protocol: zookeeper # zookeeper的通讯协议名称
-    protocol:
-      name: dubbo # dubbo 的通讯协议名称
-      port: 20886 # 服务调用端口
-    base-package: com.cf.mall #dubbo 的服务扫描路径
-    #消费配置
-    consumer:
-      timeout: 60000
-      check: false
-      retries: 0
-    provider:
-      timeout: 60000
-      retries: 0
   # 模板的配置
   thymeleaf:
     cache: false
     mode: LEGACYHTML5
+  application:
+    name: order-web
+
+
+eureka:
+  client:
+    # 注册地址
+    service-url:
+      defaultZone: http://192.168.9.185:2181/eureka/
+  instance:
+    # ip注册
+    prefer-ip-address: true
+    # 实例 id 格式
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+feign:
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
 
 # 日志输出
 logging:

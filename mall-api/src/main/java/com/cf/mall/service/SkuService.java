@@ -4,6 +4,7 @@ import com.cf.mall.bean.PmsSkuInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
@@ -22,31 +23,31 @@ public interface SkuService {
      * @param skuInfo
      */
     @PostMapping("/sku/saveSkuInfo")
-    void saveSkuInfo(PmsSkuInfo skuInfo);
+    void saveSkuInfo(@RequestBody PmsSkuInfo skuInfo);
 
     /**
      * 获取 sku
      * @param id
      * @return
      */
-    @GetMapping("/sku/getSku")
-    PmsSkuInfo getSku(String id);
+    @PostMapping("/sku/getSku")
+    PmsSkuInfo getSku(@RequestParam String id);
 
     /**
      * 根据商品id获取sku
      * @param productId
      * @return
      */
-    @GetMapping("/sku/listSku")
-    List<PmsSkuInfo> listSku(Long productId);
+    @PostMapping("/sku/listSku")
+    List<PmsSkuInfo> listSku(@RequestParam("productId") Long productId);
 
     /**
      * 查询所有
      * @return
      */
     @GetMapping("/sku/listSku1")
-    List<PmsSkuInfo> listSku();
+    List<PmsSkuInfo> listSku1();
 
-    @GetMapping("/sku/checkPrice")
+    @PostMapping("/sku/checkPrice")
     boolean checkPrice(@RequestParam("id") Long id , @RequestParam("price") BigDecimal price);
 }

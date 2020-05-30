@@ -1,6 +1,5 @@
 package com.cf.mall.search.service.impl;
 
-import com.alibaba.dubbo.config.annotation.Service;
 import com.cf.mall.bean.PmsSearchParam;
 import com.cf.mall.bean.PmsSearchSkuInfo;
 import io.searchbox.client.JestClient;
@@ -11,11 +10,14 @@ import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.TermQueryBuilder;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
-import org.elasticsearch.search.aggregations.bucket.terms.TermsBuilder;
+import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.elasticsearch.search.highlight.HighlightBuilder;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,15 +27,16 @@ import java.util.stream.Collectors;
  * @Author chen
  * @Date 2020/3/8
  */
-@Service
+@RestController
 public class SearchServiceImpl implements com.cf.mall.service.SearchService {
 
     @Autowired
     private JestClient jestClient;
 
 
+    @PostMapping("list")
     @Override
-    public List<PmsSearchSkuInfo> list(PmsSearchParam param) {
+    public List<PmsSearchSkuInfo> list(@RequestBody PmsSearchParam param) {
 
         // 构建查询语句
         String dsl = getSearchDsl(param);
@@ -92,13 +95,13 @@ public class SearchServiceImpl implements com.cf.mall.service.SearchService {
                 .postTags("</span>");
 
         // aggs
-        TermsBuilder aggs = AggregationBuilders.terms("groupby_attr").field("skuAttrValueList.valueId");
+        TermsAggregationBuilder aggs = AggregationBuilders.terms("groupby_attr").field("skuAttrValueList.valueId");
 
         sourceBuilder.query(boolQueryBuilder)
                 .sort("price", SortOrder.DESC)
                 .from(0)
                 .size(20)
-                .highlight(highlightBuilder)
+                .highlighter(highlightBuilder)
                 .aggregation(aggs);
 
         return sourceBuilder.toString();

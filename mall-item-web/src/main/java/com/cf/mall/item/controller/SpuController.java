@@ -1,11 +1,11 @@
 package com.cf.mall.item.controller;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.cf.mall.bean.PmsProductSaleAttr;
 import com.cf.mall.bean.PmsSkuInfo;
 import com.cf.mall.service.SkuService;
 import com.cf.mall.service.SpuService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,9 +23,9 @@ import java.util.stream.Collectors;
 @Controller
 public class SpuController {
 
-    @Reference
+    @Autowired
     private SkuService skuService;
-    @Reference
+    @Autowired
     private SpuService spuService;
 
     @GetMapping("{id}.html")

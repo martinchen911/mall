@@ -1,6 +1,10 @@
 package com.cf.mall.service;
 
 import com.cf.mall.bean.OmsCartItem;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -8,20 +12,28 @@ import java.util.List;
  * @Author chen
  * @Date 2020/3/13
  */
+@FeignClient("cart-service")
 public interface CartService {
 
 
-    OmsCartItem getCartItem(OmsCartItem cartItem);
+    @PostMapping("getCartItem")
+    OmsCartItem getCartItem(@RequestBody OmsCartItem cartItem);
 
-    void saveCartItem(OmsCartItem cartItem);
+    @PostMapping("saveCartItem")
+    void saveCartItem(@RequestBody OmsCartItem cartItem);
 
-    void updateCartItem(OmsCartItem cartItem);
+    @PostMapping("updateCartItem")
+    void updateCartItem(@RequestBody OmsCartItem cartItem);
 
-    void flushCartCache(String memberId);
+    @PostMapping("flushCartCache")
+    void flushCartCache(@RequestParam String memberId);
 
-    List<OmsCartItem> listCart(String memberId);
+    @PostMapping("listCart")
+    List<OmsCartItem> listCart(@RequestParam String memberId);
 
-    void checkedCart(OmsCartItem cartItem);
+    @PostMapping("checkedCart")
+    void checkedCart(@RequestBody OmsCartItem cartItem);
 
-    void removeItem(OmsCartItem cartItem);
+    @PostMapping("removeItem")
+    void removeItem(@RequestBody OmsCartItem cartItem);
 }

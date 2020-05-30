@@ -1,21 +1,31 @@
 package com.cf.mall.service;
 
 import com.cf.mall.bean.OmsOrder;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @Author chen
  * @Date 2020/3/25
  */
+@FeignClient("order-service")
 public interface OrderService {
 
 
-    void updateByOrderSn(OmsOrder order);
+    @PostMapping("updateByOrderSn")
+    void updateByOrderSn(@RequestBody OmsOrder order);
 
-    String genTradeCode(String memberId);
+    @PostMapping("genTradeCode")
+    String genTradeCode(@RequestParam String memberId);
 
-    boolean checkTradeCode(String memberId,String code);
+    @PostMapping("checkTradeCode")
+    boolean checkTradeCode(@RequestParam String memberId,@RequestParam String code);
 
-    void save(OmsOrder order);
+    @PostMapping("save")
+    void save(@RequestBody OmsOrder order);
 
-    OmsOrder getOrderByOrderNo(String outOrderNo);
+    @PostMapping("getOrderByOrderNo")
+    OmsOrder getOrderByOrderNo(@RequestParam String outOrderNo);
 }

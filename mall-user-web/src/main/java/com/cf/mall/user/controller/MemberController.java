@@ -1,9 +1,9 @@
 package com.cf.mall.user.controller;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.cf.mall.bean.UmsMember;
 import com.cf.mall.service.MemberService;
 import com.cf.mall.vo.Result;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 public class MemberController {
 
-    @Reference
+    @Autowired
     private MemberService memberService;
 
 

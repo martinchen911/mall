@@ -1,6 +1,5 @@
 package com.cf.mall.search;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.cf.mall.bean.PmsSearchSkuInfo;
 import com.cf.mall.bean.PmsSkuInfo;
 import com.cf.mall.service.SkuService;
@@ -22,11 +21,12 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class MallSearchServiceApplicationTests {
 
-    @Reference
+    @Autowired
     private SkuService skuService;
 
     @Autowired
@@ -39,7 +39,7 @@ public class MallSearchServiceApplicationTests {
 
     public void put() {
         // 查询mysql数据
-        List<PmsSkuInfo> skuInfos = skuService.listSku();
+        List<PmsSkuInfo> skuInfos = skuService.listSku1();
 
         // 转化为 es 数据
         List<PmsSearchSkuInfo> searchSkuInfos = skuInfos.stream()
@@ -71,9 +71,7 @@ public class MallSearchServiceApplicationTests {
         // must
         boolQueryBuilder.must(new MatchQueryBuilder("skuName","小米6"));
 
-
         sourceBuilder.query(boolQueryBuilder).from(0).size(20);
-
 
         // 复杂查询
         Search search = new Search.Builder(sourceBuilder.toString()).addIndex("mall").addType("SkuInfo").build();

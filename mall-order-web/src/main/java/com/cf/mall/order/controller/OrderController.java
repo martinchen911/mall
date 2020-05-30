@@ -1,13 +1,16 @@
 package com.cf.mall.order.controller;
 
-import com.alibaba.dubbo.config.annotation.Reference;
 import com.cf.mall.annotations.LoginRequired;
-import com.cf.mall.bean.*;
+import com.cf.mall.bean.OmsCartItem;
+import com.cf.mall.bean.OmsOrder;
+import com.cf.mall.bean.OmsOrderItem;
+import com.cf.mall.bean.UmsMemberReceiveAddress;
 import com.cf.mall.service.CartService;
 import com.cf.mall.service.MemberService;
 import com.cf.mall.service.OrderService;
 import com.cf.mall.service.SkuService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,13 +34,13 @@ import java.util.stream.Collectors;
 @Controller
 public class OrderController {
 
-    @Reference
+    @Autowired
     CartService cartService;
-    @Reference
+    @Autowired
     MemberService memberService;
-    @Reference(retries = 0,timeout = 60000)
+    @Autowired
     OrderService orderService;
-    @Reference
+    @Autowired
     SkuService skuService;
 
 

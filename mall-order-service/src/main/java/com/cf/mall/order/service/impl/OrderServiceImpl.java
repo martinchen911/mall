@@ -1,6 +1,5 @@
 package com.cf.mall.order.service.impl;
 
-import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
 import com.cf.mall.bean.OmsOrder;
 import com.cf.mall.bean.OmsOrderItem;
@@ -9,23 +8,25 @@ import com.cf.mall.order.mapper.OmsOrderMapper;
 import com.cf.mall.service.OrderService;
 import com.cf.mall.util.ActiveMQUtil;
 import com.cf.mall.util.RedisUtil;
-import org.apache.activemq.command.ActiveMQMessage;
 import org.apache.activemq.command.ActiveMQTextMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import redis.clients.jedis.Jedis;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.jms.JMSException;
 import javax.jms.TextMessage;
-import java.awt.font.TextMeasurer;
 import java.util.UUID;
 
 /**
  * @Author chen
  * @Date 2020/3/25
  */
-@Service
+@RestController
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
@@ -37,8 +38,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     ActiveMQUtil activeMQUtil;
 
+    @PostMapping("updateByOrderSn")
     @Override
-    public void updateByOrderSn(OmsOrder order) {
+    public void updateByOrderSn(@RequestBody OmsOrder order) {
         Example e = new Example(OmsOrder.class);
         e.createCriteria().andEqualTo("orderSn",order.getOrderSn());
         order.setStatus(1);
@@ -60,8 +62,9 @@ public class OrderServiceImpl implements OrderService {
         activeMQUtil.send("ORDER_PAY_QUEUE",message);
     }
 
+    @PostMapping("genTradeCode")
     @Override
-    public String genTradeCode(String memberId) {
+    public String genTradeCode(@RequestParam String memberId) {
         String v = UUID.randomUUID().toString();
         String key = "user:"+ memberId + v +":tradeCode";
         try (Jedis jedis = redisUtil.getJedis()){
@@ -73,8 +76,9 @@ public class OrderServiceImpl implements OrderService {
         return  v;
     }
 
+    @PostMapping("checkTradeCode")
     @Override
-    public boolean checkTradeCode(String memberId,String code) {
+    public boolean checkTradeCode(@RequestParam String memberId,@RequestParam String code) {
         String key = "user:"+ memberId + code +":tradeCode";
         try (Jedis jedis = redisUtil.getJedis()){
             String lua = "if redis.call('get',KEYS[1])" +
@@ -90,8 +94,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Transactional()
+    @PostMapping("save")
     @Override
-    public void save(OmsOrder order) {
+    public void save(@RequestBody OmsOrder order) {
         orderMapper.insertSelective(order);
         order.getOrderItemList().stream().forEach(x -> {
             x.setOrderId(order.getId());
@@ -100,8 +105,9 @@ public class OrderServiceImpl implements OrderService {
         });
     }
 
+    @PostMapping("getOrderByOrderNo")
     @Override
-    public OmsOrder getOrderByOrderNo(String outOrderNo) {
+    public OmsOrder getOrderByOrderNo(@RequestParam String outOrderNo) {
         Example e = new Example(OmsOrder.class);
         e.createCriteria().andEqualTo("orderSn",outOrderNo);
         return orderMapper.selectOneByExample(e);
